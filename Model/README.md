@@ -31,17 +31,17 @@ sudo apt-get install python3-dev
 # Stage 1: Tuning to do model initialization.
 
 # You can minimize the tuning epochs to speed up.
-python run_tuning.py  --config="configs/rabbit-jump-tune.yaml"
+python3 run_tuning.py  --config="configs/rabbit-jump-tune.yaml"
 ```
 
 ``` bash
 # Stage 2: Attention Control
 
 # We develop a faster mode (1 min on V100):
-python run_videop2p.py --config="configs/rabbit-jump-p2p.yaml" --fast
+python3 run_videop2p.py --config="configs/rabbit-jump-p2p.yaml" --fast
 
 # The official mode (10 mins on V100, more stable):
-python run_videop2p.py --config="configs/rabbit-jump-p2p.yaml"
+python3 run_videop2p.py --config="configs/rabbit-jump-p2p.yaml"
 ```
 
 Find your results in **Video-P2P/outputs/xxx/results**.
