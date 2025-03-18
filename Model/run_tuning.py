@@ -26,6 +26,7 @@ from tqdm.auto import tqdm
 from transformers import CLIPTextModel, CLIPTokenizer
 
 from tuneavideo.models.unet import UNet3DConditionModel
+from tuneavideo.models.unet_EI import UNet3DConditionModelEI2
 from tuneavideo.data.dataset import TuneAVideoDataset
 from tuneavideo.pipelines.pipeline_tuneavideo import TuneAVideoPipeline
 from tuneavideo.util import save_videos_grid, ddim_inversion
@@ -106,7 +107,7 @@ def main(
     tokenizer = CLIPTokenizer.from_pretrained(pretrained_model_path, subfolder="tokenizer")
     text_encoder = CLIPTextModel.from_pretrained(pretrained_model_path, subfolder="text_encoder")
     vae = AutoencoderKL.from_pretrained(pretrained_model_path, subfolder="vae")
-    unet = UNet3DConditionModel.from_pretrained_2d(pretrained_model_path, subfolder="unet")
+    unet = UNet3DConditionModelEI2.from_pretrained_2d(pretrained_model_path, subfolder="unet")
 
     # Freeze vae and text_encoder
     vae.requires_grad_(False)
