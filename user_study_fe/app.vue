@@ -1,5 +1,9 @@
+<script setup lang="ts">
+	import { NuxtLayout, NuxtPage } from "#components";
+</script>
+
 <template>
-  <div class="bg-red-500">
-    Zoopla
-  </div>
+	<NuxtLayout>
+		<NuxtPage />
+	</NuxtLayout>
 </template>
