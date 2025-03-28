@@ -7,7 +7,7 @@
 	<footer class="border-t-2 border-white p-5 absolute bottom-0 w-full">
 		<Section>
 			<P class="text-gray-300 text-center">
-				© {{ new Date().getFullYear() }} Video Editing Study · Built with ❤️ using Nuxt 3 & Firebase
+				© {{ new Date().getFullYear() }} {{ $t("Footer") }}
 			</P>
 		</Section>
 	</footer>

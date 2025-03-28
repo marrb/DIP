@@ -1,5 +1,13 @@
 <script setup lang="ts">
-	import { NuxtLayout, NuxtPage } from "#components";
+	const { t } = useI18n();
+
+	useHead({
+		title: t("Header"),
+	});
+
+	if (import.meta.client) {
+		//await useSeeder();
+	}
 </script>
 
 <template>

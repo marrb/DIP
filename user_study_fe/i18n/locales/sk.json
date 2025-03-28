@@ -1,0 +1,14 @@
+{
+	"Header": "Úprava a modifikácia videí vytvorených pomocou difúznych modelov na základe textového vstupu a interakcie používateľa",
+	"Welcome": "Vitajte",
+	"UserStudy": "Táto užívateľská štúdia je určená na hodnotenie kvality videí vytvorených rôznymi technikami úpravy pomocou difúznych modelov.",
+	"UserStudyDuration": "Tento proces netrvá dlhšie ako 10 minút a zahŕňa výber preferovaného videa v sérii porovnávaní.",
+	"UserStudyConfidential": "Nezhromažďujú sa žiadne osobné údaje.",
+	"UserStudyThanks": "Ďakujeme vám za účasť!",
+	"UserStudyStart": "Začať",
+	"Footer": "Štúdia úpravy videa - Vybudovaná s ❤️ použitím Nuxt 3 a Firebase",
+	"Next": "Ďalej",
+	"Back": "Späť",
+	"NoAnswer": "Žiadna odpoveď nebola vybraná",
+	"AllQuestionsAnswered": "Už ste odpovedali na všetky otázky. Ďakujeme za vašu účasť. ❤️"
+}
