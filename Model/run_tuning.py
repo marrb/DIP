@@ -26,7 +26,7 @@ from tqdm.auto import tqdm
 from transformers import CLIPTextModel, CLIPTokenizer
 
 from tuneavideo.models.unet import UNet3DConditionModel
-from tuneavideo.models.unet_EI import UNet3DConditionModelEI2
+from Model.tuneavideo.models.unet_custom import UNet3DConditionModelCustom
 from tuneavideo.data.dataset import TuneAVideoDataset
 from tuneavideo.pipelines.pipeline_tuneavideo import TuneAVideoPipeline
 from tuneavideo.util import save_videos_grid, ddim_inversion
@@ -107,7 +107,7 @@ def main(
     tokenizer = CLIPTokenizer.from_pretrained(pretrained_model_path, subfolder="tokenizer")
     text_encoder = CLIPTextModel.from_pretrained(pretrained_model_path, subfolder="text_encoder")
     vae = AutoencoderKL.from_pretrained(pretrained_model_path, subfolder="vae")
-    unet = UNet3DConditionModelEI2.from_pretrained_2d(pretrained_model_path, subfolder="unet")
+    unet = UNet3DConditionModelCustom.from_pretrained_2d(pretrained_model_path ,subfolder="unet")
 
     # Freeze vae and text_encoder
     vae.requires_grad_(False)
@@ -287,7 +287,7 @@ def main(
                     raise ValueError(f"Unknown prediction type {noise_scheduler.prediction_type}")
 
                 # Predict the noise residual and compute loss
-                model_pred = unet(noisy_latents, timesteps, encoder_hidden_states).sample
+                model_pred = unet(noisy_latents, timesteps, encoder_hidden_states, config=config).sample
                 loss = F.mse_loss(model_pred.float(), target.float(), reduction="mean")
 
                 # Gather the losses across all processes for logging (if we use distributed training).
@@ -363,6 +363,14 @@ def main(
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=str, default="./configs/tuneavideo.yaml")
+    parser.add_argument("--base", type=bool, default=False, help="Use base VideoP2P model")
     args = parser.parse_args()
+    
+    # Load YAML config
+    config = OmegaConf.load(args.config)
 
-    main(**OmegaConf.load(args.config))
+    # Add CLI overrides (like --base) to config
+    cli_overrides = OmegaConf.from_dotlist([f"{k}={v}" for k, v in vars(args).items() if k != "config"])
+    merged_config = OmegaConf.merge(config, cli_overrides)
+
+    main(**merged_config)

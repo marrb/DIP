@@ -15,7 +15,7 @@ from .ffam import FFAM
 
 logger = logging.get_logger(__name__)
 
-class UNet3DConditionModelEI2(UNet3DConditionModel):
+class UNet3DConditionModelCustom(UNet3DConditionModel):
     """
     Extended UNet3D with EI integration
     - Includes STAM and FFAM modules
@@ -108,6 +108,7 @@ class UNet3DConditionModelEI2(UNet3DConditionModel):
         class_labels: Optional[torch.Tensor] = None,
         attention_mask: Optional[torch.Tensor] = None,
         return_dict: bool = True,
+        config: Optional[dict] = None,
     ) -> Union[UNet3DConditionOutput, Tuple]:
         r"""
         Args:
@@ -145,8 +146,9 @@ class UNet3DConditionModelEI2(UNet3DConditionModel):
         if self.config.center_input_sample:
             sample = 2 * sample - 1.0
 
-        # apply STAM
-        sample = self.stam(sample)
+        # apply STAM if a base model is not used
+        if not config.base:
+            sample = self.stam(sample)
 
         # time
         timesteps = timestep
@@ -201,7 +203,7 @@ class UNet3DConditionModelEI2(UNet3DConditionModel):
             down_block_res_samples += res_samples
 
             # Apply FFAM only when more than 1 frame exists
-            if sample.shape[2] > 1:
+            if not config.base and sample.shape[2] > 1:
                 sample = self.ffam[i](sample)
 
         # mid
@@ -234,6 +236,10 @@ class UNet3DConditionModelEI2(UNet3DConditionModel):
                 sample = upsample_block(
                     hidden_states=sample, temb=emb, res_hidden_states_tuple=res_samples, upsample_size=upsample_size
                 )
+                
+            # Apply FFAM only when more than 1 frame exists
+            if not config.base and sample.shape[2] > 1:
+                sample = self.ffam[-(i + 1)](sample)
             
         # post-process
         sample = self.conv_norm_out(sample)
