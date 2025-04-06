@@ -86,6 +86,6 @@ class VideoPrepper():
         
         # Save frames to output directory
         for i, frame in enumerate(frames):
-            output_frame_path = os.path.join(output_video_dir, f"frame_{i:04d}.{self.output_frame_format}")
+            output_frame_path = os.path.join(output_video_dir, f"{i + 1}.{self.output_frame_format}")
             cv2.imwrite(output_frame_path, frame)
     

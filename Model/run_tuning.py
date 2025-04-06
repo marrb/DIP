@@ -108,7 +108,7 @@ def main(
     tokenizer = CLIPTokenizer.from_pretrained(pretrained_model_path, subfolder="tokenizer")
     text_encoder = CLIPTextModel.from_pretrained(pretrained_model_path, subfolder="text_encoder")
     vae = AutoencoderKL.from_pretrained(pretrained_model_path, subfolder="vae")
-    unet = UNet3DConditionModelCustom.from_pretrained_2d(pretrained_model_path ,subfolder="unet")
+    unet = UNet3DConditionModelCustom.from_pretrained_2d(pretrained_model_path ,subfolder="unet", base=base)
 
     # Freeze vae and text_encoder
     vae.requires_grad_(False)

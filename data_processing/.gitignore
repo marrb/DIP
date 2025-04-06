@@ -1,2 +1,3 @@
 # Data processing
 .data_processing/video_prep/Output
+.data_processing/video_prep/__pycache__
