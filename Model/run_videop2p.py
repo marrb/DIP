@@ -17,7 +17,7 @@ from transformers import AutoTokenizer, CLIPTextModel, CLIPTokenizer
 from einops import rearrange
 
 from tuneavideo.models.unet import UNet3DConditionModel
-from tuneavideo.models.unet_EI import UNet3DConditionModelEI2
+from tuneavideo.models.unet_custom import UNet3DConditionModelCustom
 from tuneavideo.pipelines.pipeline_tuneavideo import TuneAVideoPipeline
 
 import cv2
@@ -84,7 +84,7 @@ def main(
         subfolder="vae",
     ).to(device, dtype=weight_dtype)
     
-    unet = UNet3DConditionModelEI2.from_pretrained(
+    unet = UNet3DConditionModelCustom.from_pretrained(
         pretrained_model_path, subfolder="unet"
     )
     unet.to(device)

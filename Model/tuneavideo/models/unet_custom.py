@@ -108,7 +108,7 @@ class UNet3DConditionModelCustom(UNet3DConditionModel):
         class_labels: Optional[torch.Tensor] = None,
         attention_mask: Optional[torch.Tensor] = None,
         return_dict: bool = True,
-        config: Optional[dict] = None,
+        base: bool = False,
     ) -> Union[UNet3DConditionOutput, Tuple]:
         r"""
         Args:
@@ -147,7 +147,7 @@ class UNet3DConditionModelCustom(UNet3DConditionModel):
             sample = 2 * sample - 1.0
 
         # apply STAM if a base model is not used
-        if not config.base:
+        if not base:
             sample = self.stam(sample)
 
         # time
@@ -203,7 +203,7 @@ class UNet3DConditionModelCustom(UNet3DConditionModel):
             down_block_res_samples += res_samples
 
             # Apply FFAM only when more than 1 frame exists
-            if not config.base and sample.shape[2] > 1:
+            if not base and sample.shape[2] > 1:
                 sample = self.ffam[i](sample)
 
         # mid
@@ -238,7 +238,7 @@ class UNet3DConditionModelCustom(UNet3DConditionModel):
                 )
                 
             # Apply FFAM only when more than 1 frame exists
-            if not config.base and sample.shape[2] > 1:
+            if not base and sample.shape[2] > 1:
                 sample = self.ffam[-(i + 1)](sample)
             
         # post-process

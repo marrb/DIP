@@ -26,7 +26,7 @@ from tqdm.auto import tqdm
 from transformers import CLIPTextModel, CLIPTokenizer
 
 from tuneavideo.models.unet import UNet3DConditionModel
-from Model.tuneavideo.models.unet_custom import UNet3DConditionModelCustom
+from tuneavideo.models.unet_custom import UNet3DConditionModelCustom
 from tuneavideo.data.dataset import TuneAVideoDataset
 from tuneavideo.pipelines.pipeline_tuneavideo import TuneAVideoPipeline
 from tuneavideo.util import save_videos_grid, ddim_inversion
@@ -69,6 +69,7 @@ def main(
     use_8bit_adam: bool = False,
     enable_xformers_memory_efficient_attention: bool = True,
     seed: Optional[int] = None,
+    base: bool = False,
 ):
     *_, config = inspect.getargvalues(inspect.currentframe())
 
@@ -287,7 +288,7 @@ def main(
                     raise ValueError(f"Unknown prediction type {noise_scheduler.prediction_type}")
 
                 # Predict the noise residual and compute loss
-                model_pred = unet(noisy_latents, timesteps, encoder_hidden_states, config=config).sample
+                model_pred = unet(noisy_latents, timesteps, encoder_hidden_states, base=base).sample
                 loss = F.mse_loss(model_pred.float(), target.float(), reduction="mean")
 
                 # Gather the losses across all processes for logging (if we use distributed training).
