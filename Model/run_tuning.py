@@ -366,12 +366,5 @@ if __name__ == "__main__":
     parser.add_argument("--config", type=str, default="./configs/tuneavideo.yaml")
     parser.add_argument("--base", type=bool, default=False, help="Use base VideoP2P model")
     args = parser.parse_args()
-    
-    # Load YAML config
-    config = OmegaConf.load(args.config)
 
-    # Add CLI overrides (like --base) to config
-    cli_overrides = OmegaConf.from_dotlist([f"{k}={v}" for k, v in vars(args).items() if k != "config"])
-    merged_config = OmegaConf.merge(config, cli_overrides)
-
-    main(**merged_config)
+    main(**OmegaConf.load(args.config), base=args.base)

@@ -49,6 +49,7 @@ def main(
     video_len: int = 8,
     fast: bool = False,
     mixed_precision: str = 'fp32',
+    base: bool = False,
 ):
     output_folder = os.path.join(pretrained_model_path, 'results')
     if fast:
@@ -441,7 +442,7 @@ def main(
             return next_sample
         
         def get_noise_pred_single(self, latents, t, context):
-            noise_pred = self.model.unet(latents, t, encoder_hidden_states=context)["sample"]
+            noise_pred = self.model.unet(latents, t, encoder_hidden_states=context, base=base)["sample"]
             return noise_pred
 
         def get_noise_pred(self, latents, t, is_forward=True, context=None):
@@ -449,7 +450,7 @@ def main(
             if context is None:
                 context = self.context
             guidance_scale = 1 if is_forward else GUIDANCE_SCALE
-            noise_pred = self.model.unet(latents_input, t, encoder_hidden_states=context)["sample"]
+            noise_pred = self.model.unet(latents_input, t, encoder_hidden_states=context, base=base)["sample"]
             noise_pred_uncond, noise_prediction_text = noise_pred.chunk(2)
             noise_pred = noise_pred_uncond + guidance_scale * (noise_prediction_text - noise_pred_uncond)
             if is_forward:
@@ -663,6 +664,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=str, default="./configs/videop2p.yaml")
     parser.add_argument("--fast", action='store_true')
+    parser.add_argument("--base", type=bool, default=False, help="Use base Video-P2P model")
     args = parser.parse_args()
 
-    main(**OmegaConf.load(args.config), fast=args.fast)
+    main(**OmegaConf.load(args.config), fast=args.fast, base=args.base)
