@@ -1,0 +1,16 @@
+pretrained_model_path: "./outputs/camera-boat"
+image_path: "./data/camera_boat"
+prompt: "a DSLR camera resting by a window with a lake and green mountains in the background"
+prompts:
+  - "a DSLR camera resting by a window with a lake and green mountains in the background"
+  - "a DSLR camera by a train window, in the style of Studio Ghibli"
+blend_word:
+  - 'camera'
+  - 'camera'
+eq_params:
+  words:
+    - "Ghibli"
+  values:
+    - 4
+save_name: "camera_boat_Ghibli"
+is_word_swap: False
