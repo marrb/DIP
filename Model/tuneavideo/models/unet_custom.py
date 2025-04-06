@@ -252,7 +252,7 @@ class UNet3DConditionModelCustom(UNet3DConditionModel):
         return UNet3DConditionOutput(sample=sample)
 
     @classmethod
-    def from_pretrained_2d(cls, pretrained_model_path, subfolder=None):
+    def from_pretrained_2d(cls, pretrained_model_path, subfolder=None, base=False):
         if subfolder is not None:
             pretrained_model_path = os.path.join(pretrained_model_path, subfolder)
     
@@ -302,12 +302,13 @@ class UNet3DConditionModelCustom(UNet3DConditionModel):
         missing_keys, unexpected_keys = model.load_state_dict(new_state_dict, strict=False)
     
         # Manual initialization for STAM and FFAM parameters
-        with torch.no_grad():
-            for key in missing_keys:
-                if key.startswith("stam") or key.startswith("ffam"):
-                    print(f"🔧 Initializing missing key: {key}")
-                    param = model.state_dict().get(key)
-                    if param is not None:
-                        param.data.normal_(0, 0.02)  # Standard initialization
+        if not base:
+            with torch.no_grad():
+                for key in missing_keys:
+                    if key.startswith("stam") or key.startswith("ffam"):
+                        print(f"🔧 Initializing missing key: {key}")
+                        param = model.state_dict().get(key)
+                        if param is not None:
+                            param.data.normal_(0, 0.02)  # Standard initialization
     
         return model
