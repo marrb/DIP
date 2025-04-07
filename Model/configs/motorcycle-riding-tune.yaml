@@ -4,7 +4,7 @@ output_dir: "./outputs/motorcycle-riding"
 train_data:
   video_path: "./data/motorcycle_riding"
   prompt: "motorcycle riding on the road with trees"
-  n_sample_frames: 32
+  n_sample_frames: 24
   width: 512
   height: 512
   sample_start_idx: 0
@@ -13,7 +13,7 @@ train_data:
 validation_data:
   prompts:
     - "motorcycle riding on icy road with trees"
-  video_length: 32
+  video_length: 24
   width: 512
   height: 512
   num_inference_steps: 50

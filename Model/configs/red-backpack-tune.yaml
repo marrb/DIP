@@ -4,7 +4,7 @@ output_dir: "./outputs/red-backpack"
 train_data:
   video_path: "./data/red_backpack"
   prompt: "man wearing a red backpack"
-  n_sample_frames: 32
+  n_sample_frames: 24
   width: 512
   height: 512
   sample_start_idx: 0
@@ -13,7 +13,7 @@ train_data:
 validation_data:
   prompts:
     - "man wearing a blue backpack"
-  video_length: 32
+  video_length: 24
   width: 512
   height: 512
   num_inference_steps: 50

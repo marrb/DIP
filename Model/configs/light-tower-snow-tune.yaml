@@ -4,7 +4,7 @@ output_dir: "./outputs/light-tower-snow"
 train_data:
   video_path: "./data/light_tower_snow"
   prompt: "red light tower in the snow"
-  n_sample_frames: 32
+  n_sample_frames: 24
   width: 512
   height: 512
   sample_start_idx: 0
@@ -13,7 +13,7 @@ train_data:
 validation_data:
   prompts:
     - "green light tower in the snow"
-  video_length: 32
+  video_length: 24
   width: 512
   height: 512
   num_inference_steps: 50

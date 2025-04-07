@@ -4,7 +4,7 @@ output_dir: "./outputs/camera-boat"
 train_data:
   video_path: "./data/camera_boat"
   prompt: "a DSLR camera resting by a window with a lake and green mountains in the background"
-  n_sample_frames: 32
+  n_sample_frames: 24
   width: 512
   height: 512
   sample_start_idx: 0
@@ -13,7 +13,7 @@ train_data:
 validation_data:
   prompts:
     - "a DSLR camera by a train window, in the style of Studio Ghibli"
-  video_length: 32
+  video_length: 24
   width: 512
   height: 512
   num_inference_steps: 50
@@ -23,9 +23,9 @@ validation_data:
 
 learning_rate: 3e-5
 train_batch_size: 1
-max_train_steps: 300
+max_train_steps: 500
 checkpointing_steps: 1000
-validation_steps: 300
+validation_steps: 500
 trainable_modules:
   - "attn1.to_q"
   - "attn2.to_q"

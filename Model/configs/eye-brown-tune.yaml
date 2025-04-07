@@ -4,7 +4,7 @@ output_dir: "./outputs/eye-brown"
 train_data:
   video_path: "./data/eye_brown"
   prompt: "brown eye blinking"
-  n_sample_frames: 32
+  n_sample_frames: 24
   width: 512
   height: 512
   sample_start_idx: 0
@@ -13,7 +13,7 @@ train_data:
 validation_data:
   prompts:
     - "crystal brown eye blinking"
-  video_length: 32
+  video_length: 24
   width: 512
   height: 512
   num_inference_steps: 50

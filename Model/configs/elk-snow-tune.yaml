@@ -4,7 +4,7 @@ output_dir: "./outputs/elk-snow"
 train_data:
   video_path: "./data/elk_snow"
   prompt: "reindeer standing still in the snow"
-  n_sample_frames: 32
+  n_sample_frames: 24
   width: 512
   height: 512
   sample_start_idx: 0
@@ -13,7 +13,7 @@ train_data:
 validation_data:
   prompts:
     - "wooden reindeer is standing still in the snow"
-  video_length: 32
+  video_length: 24
   width: 512
   height: 512
   num_inference_steps: 50
