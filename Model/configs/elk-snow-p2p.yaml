@@ -1,0 +1,16 @@
+pretrained_model_path: "./outputs/elk-snow"
+image_path: "./data/elk_snow"
+prompt: "reindeer standing still in the snow"
+prompts:
+  - "reindeer standing still in the snow"
+  - "wooden reindeer is standing still in the snow"
+blend_word:
+  - 'reindeer'
+  - 'reindeer'
+eq_params:
+  words:
+    - "wooden"
+  values:
+    - 4
+save_name: "elk_snow_wooden"
+is_word_swap: False

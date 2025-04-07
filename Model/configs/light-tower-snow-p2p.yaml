@@ -1,0 +1,16 @@
+pretrained_model_path: "./outputs/light-tower-snow"
+image_path: "./data/light_tower_snow"
+prompt: "red light tower in the snow"
+prompts:
+  - "red light tower in the snow"
+  - "green light tower in the snow"
+blend_word:
+  - 'light tower'
+  - 'light tower'
+eq_params:
+  words:
+    - "green"
+  values:
+    - 4
+save_name: "light_tower_snow_green"
+is_word_swap: False
