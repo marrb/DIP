@@ -3,6 +3,7 @@
 ``` bash
 git clone https://github.com/marrb/DIP
 cd Model
+sudo apt-get update
 sudo apt-get install git-lfs
 git lfs install
 git clone https://huggingface.co/stable-diffusion-v1-5/stable-diffusion-v1-5
@@ -20,8 +21,6 @@ cd ..
 git clone https://github.com/facebookresearch/xformers/
 cd xformers
 git submodule update --init --recursive
-pip install xformers==0.0.16rc424
-sudo apt-get update
 sudo apt-get install python3-dev
 ```
 

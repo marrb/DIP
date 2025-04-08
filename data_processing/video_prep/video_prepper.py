@@ -3,7 +3,7 @@ import cv2
 import sys
 
 class VideoPrepper():
-    def __init__(self, video_dir: str, output_dir: str, output_frames: int = 32, output_frame_format: str = 'jpg'):
+    def __init__(self, video_dir: str, output_dir: str, output_frames: int = 24, output_frame_format: str = 'jpg'):
         """
         Initialize the VideoPrepper class.
 
@@ -61,24 +61,18 @@ class VideoPrepper():
             sys.exit()
             
         frame_count = int(video.get(cv2.CAP_PROP_FRAME_COUNT))
-        frame_indices = [0]  # First frame
-        
-        if frame_count > 1:
-            step = (frame_count - 1) / (self.output_frames - 1)
-            frame_indices += [int(step * i) for i in range(1, self.output_frames - 1)]
-            frame_indices.append(frame_count - 1)  # Last frame
+        interval = 3
             
         # Store frames
         frames = []
 
-        for frame_num in frame_indices:
+        for frame_num in range(0, frame_count, interval):
             video.set(cv2.CAP_PROP_POS_FRAMES, frame_num)
             ret, frame = video.read()
             
             if ret:
                 frames.append(frame)
-            else:
-                print(f"Error: Could not read frame {frame_num} from video {video_file}.")
+            if len(frames) >= self.output_frames:
                 break
 
         # Realease video capture object
