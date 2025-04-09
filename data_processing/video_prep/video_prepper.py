@@ -65,6 +65,9 @@ class VideoPrepper():
             
         # Store frames
         frames = []
+        
+        if (frame_count <= self.output_frames):
+            interval = 1
 
         for frame_num in range(0, frame_count, interval):
             video.set(cv2.CAP_PROP_POS_FRAMES, frame_num)
