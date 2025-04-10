@@ -1,0 +1,16 @@
+pretrained_model_path: "./outputs/squirrel-carrot"
+image_path: "./data/squirrel_carrot"
+prompt: "a squirrel is eating a carrot"
+prompts:
+  - "a squirrel is eating a carrot"
+  - "a rabbit is eating a carrot"
+blend_word:
+  - 'squirrel'
+  - 'rabbit'
+eq_params:
+  words:
+    - "rabbit"
+  values:
+    - 2
+save_name: "squirrel-carrot-rabbit"
+is_word_swap: False

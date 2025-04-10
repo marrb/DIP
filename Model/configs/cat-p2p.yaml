@@ -1,0 +1,16 @@
+pretrained_model_path: "./outputs/cat"
+image_path: "./data/cat"
+prompt: "a cat is sitting in front of a tree"
+prompts:
+  - "a cat is sitting in front of a tree"
+  - "a origami cat is sitting in front of a tree"
+blend_word:
+  - 'cat'
+  - 'cat'
+eq_params:
+  words:
+    - "origami"
+  values:
+    - 2
+save_name: "cat-origami"
+is_word_swap: False

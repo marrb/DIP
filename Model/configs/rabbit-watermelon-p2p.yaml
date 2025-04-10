@@ -1,0 +1,16 @@
+pretrained_model_path: "./outputs/rabbit-watermelon"
+image_path: "./data/rabbit_watermelon"
+prompt: "a rabbit is eating a watermelon"
+prompts:
+  - "a rabbit is eating a watermelon"
+  - "a rabbit is eating a cabbage"
+blend_word:
+  - 'rabbit'
+  - 'rabbit'
+eq_params:
+  words:
+    - "cabbage"
+  values:
+    - 2
+save_name: "rabbit-watermelon-cabbage"
+is_word_swap: False

@@ -1,0 +1,16 @@
+pretrained_model_path: "./outputs/girl-dance"
+image_path: "./data/girl_dance"
+prompt: "a girl is dancing"
+prompts:
+  - "a girl is dancing"
+  - "a man is dancing"
+blend_word:
+  - 'girl'
+  - 'man'
+eq_params:
+  words:
+    - "man"
+  values:
+    - 2
+save_name: "girl-dance-man"
+is_word_swap: False

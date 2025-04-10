@@ -1,0 +1,16 @@
+pretrained_model_path: "./outputs/parrot"
+image_path: "./data/parrot"
+prompt: "a parrot is flying above a river"
+prompts:
+  - "a parrot is flying above a river"
+  - "a neon parrot is flying above a river"
+blend_word:
+  - 'parrot'
+  - 'parrot'
+eq_params:
+  words:
+    - "neon"
+  values:
+    - 2
+save_name: "parrot-neon"
+is_word_swap: False
