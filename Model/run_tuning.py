@@ -109,7 +109,7 @@ def main(
     tokenizer = CLIPTokenizer.from_pretrained(pretrained_model_path, subfolder="tokenizer")
     text_encoder = CLIPTextModel.from_pretrained(pretrained_model_path, subfolder="text_encoder")
     vae = AutoencoderKL.from_pretrained(pretrained_model_path, subfolder="vae")
-    unet = UNet3DConditionModelCustom.from_pretrained_2d(pretrained_model_path ,subfolder="unet", model_type=model_type)
+    unet = UNet3DConditionModelCustom.from_pretrained_2d(pretrained_model_path ,subfolder="unet", model_type=model_type) if model_type != ModelType.VIDEO_P2P else UNet3DConditionModel.from_pretrained(pretrained_model_path, subfolder="unet")
 
     # Freeze vae and text_encoder
     vae.requires_grad_(False)

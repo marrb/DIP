@@ -128,6 +128,16 @@ class UNet3DConditionModelCustom(UNet3DConditionModel):
         # The overall upsampling factor is equal to 2 ** (# num of upsampling layears).
         # However, the upsampling interpolation output size can be forced to fit any upsampling size
         # on the fly if necessary.
+        if model_type == ModelType.VIDEO_P2P:
+            return super().forward(
+                sample=sample,
+                timestep=timestep,
+                encoder_hidden_states=encoder_hidden_states,
+                class_labels=class_labels,
+                attention_mask=attention_mask,
+                return_dict=return_dict,
+            )
+        
         default_overall_up_factor = 2**self.num_upsamplers
 
         # upsample size should be forwarded when sample is not a multiple of `default_overall_up_factor`
@@ -147,9 +157,8 @@ class UNet3DConditionModelCustom(UNet3DConditionModel):
         if self.config.center_input_sample:
             sample = 2 * sample - 1.0
 
-        # apply STAM if a base model is not used
-        if model_type != ModelType.VIDEO_P2P:
-            sample = self.stam(sample)
+        # apply STAM
+        sample = self.stam(sample)
 
         # time
         timesteps = timestep
@@ -204,7 +213,7 @@ class UNet3DConditionModelCustom(UNet3DConditionModel):
             down_block_res_samples += res_samples
 
             # Apply FFAM only when more than 1 frame exists
-            if model_type != ModelType.VIDEO_P2P and sample.shape[2] > 1:
+            if sample.shape[2] > 1:
                 sample = self.ffam[i](sample)
 
         # mid
@@ -239,7 +248,7 @@ class UNet3DConditionModelCustom(UNet3DConditionModel):
                 )
                 
             # Apply FFAM only when more than 1 frame exists
-            if model_type != ModelType.VIDEO_P2P and sample.shape[2] > 1:
+            if sample.shape[2] > 1:
                 sample = self.ffam[-(i + 1)](sample)
             
         # post-process
@@ -254,6 +263,9 @@ class UNet3DConditionModelCustom(UNet3DConditionModel):
 
     @classmethod
     def from_pretrained_2d(cls, pretrained_model_path, subfolder=None, model_type = None):
+        if model_type == ModelType.VIDEO_P2P:
+            return super().from_pretrained_2d(pretrained_model_path, subfolder=subfolder)
+        
         if subfolder is not None:
             pretrained_model_path = os.path.join(pretrained_model_path, subfolder)
     
@@ -303,13 +315,12 @@ class UNet3DConditionModelCustom(UNet3DConditionModel):
         missing_keys, unexpected_keys = model.load_state_dict(new_state_dict, strict=False)
     
         # Manual initialization for STAM and FFAM parameters
-        if model_type != ModelType.VIDEO_P2P:
-            with torch.no_grad():
-                for key in missing_keys:
-                    if key.startswith("stam") or key.startswith("ffam"):
-                        print(f"🔧 Initializing missing key: {key}")
-                        param = model.state_dict().get(key)
-                        if param is not None:
-                            param.data.normal_(0, 0.02)  # Standard initialization
+        with torch.no_grad():
+            for key in missing_keys:
+                if key.startswith("stam") or key.startswith("ffam"):
+                    print(f"🔧 Initializing missing key: {key}")
+                    param = model.state_dict().get(key)
+                    if param is not None:
+                        param.data.normal_(0, 0.02)  # Standard initialization
     
         return model
