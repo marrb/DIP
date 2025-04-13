@@ -8,7 +8,7 @@ import math
 import os
 from typing import Dict, Optional, Tuple
 from omegaconf import OmegaConf
-from enums import ModelType
+from enums.model_type import ModelType
 
 import torch
 import torch.nn.functional as F

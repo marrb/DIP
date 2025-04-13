@@ -15,7 +15,7 @@ from torch.optim.adam import Adam
 from PIL import Image
 from transformers import AutoTokenizer, CLIPTextModel, CLIPTokenizer
 from einops import rearrange
-from enums import ModelType
+from enums.model_type import ModelType
 
 from tuneavideo.models.unet import UNet3DConditionModel
 from tuneavideo.models.unet_custom import UNet3DConditionModelCustom
