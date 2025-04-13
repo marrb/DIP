@@ -12,7 +12,7 @@ from diffusers.configuration_utils import register_to_config
 from .unet import UNet3DConditionModel, UNet3DConditionOutput
 from .stam import STAM
 from .ffam import FFAM
-from enums import ModelType
+from enums.model_type import ModelType
 
 logger = logging.get_logger(__name__)
 
