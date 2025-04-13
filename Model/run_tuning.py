@@ -45,6 +45,7 @@ def main(
     output_dir: str,
     train_data: Dict,
     validation_data: Dict,
+    model_type: ModelType,
     validation_steps: int = 100,
     trainable_modules: Tuple[str] = (
         "attn1.to_q",
@@ -70,7 +71,6 @@ def main(
     use_8bit_adam: bool = False,
     enable_xformers_memory_efficient_attention: bool = True,
     seed: Optional[int] = None,
-    model_type: ModelType = ModelType.VIDEO_P2P,
 ):
     *_, config = inspect.getargvalues(inspect.currentframe())
 
@@ -365,10 +365,12 @@ def main(
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=str, default="./configs/tuneavideo.yaml")
-    parser.add_argument("--model_type", type=str, default=ModelType.VIDEO_P2P, help=f"Model type: {ModelType.VIDEO_P2P}, {ModelType.VIDEO_P2P_EI}, {ModelType.VIDEO_P2P_EI_PLUS}")
+    parser.add_argument("--model_type", type=str, default=ModelType.VIDEO_P2P.value, choices=[e.value for e in ModelType], help=f"Model type. Choices: {[e.value for e in ModelType]}")
     args = parser.parse_args()
     
-    if args.model_type not in ModelType.__members__:
-        raise ValueError(f"Invalid model type: {args.model_type}. Must be one of {list(ModelType.__members__.keys())}")
+    try:
+        model_type_enum = ModelType(args.model_type)
+    except ValueError:
+        raise ValueError(f"Invalid model type: {args.model_type}. Must be one of {[e.value for e in ModelType]}")
 
-    main(**OmegaConf.load(args.config), model_type=args.model_type)
+    main(**OmegaConf.load(args.config), model_type=model_type_enum)

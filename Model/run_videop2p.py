@@ -665,10 +665,12 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=str, default="./configs/videop2p.yaml")
     parser.add_argument("--fast", action='store_true')
-    parser.add_argument("--model_type", type=str, default=ModelType.VIDEO_P2P, help=f"Model type: {ModelType.VIDEO_P2P}, {ModelType.VIDEO_P2P_EI}, {ModelType.VIDEO_P2P_EI_PLUS}")
+    parser.add_argument("--model_type", type=str, default=ModelType.VIDEO_P2P.value, choices=[e.value for e in ModelType], help=f"Model type. Choices: {[e.value for e in ModelType]}")
     args = parser.parse_args()
     
-    if args.model_type not in ModelType.__members__:
-        raise ValueError(f"Invalid model type: {args.model_type}. Must be one of {list(ModelType.__members__.keys())}")
+    try:
+        model_type_enum = ModelType(args.model_type)
+    except ValueError:
+        raise ValueError(f"Invalid model type: {args.model_type}. Must be one of {[e.value for e in ModelType]}")
 
-    main(**OmegaConf.load(args.config), fast=args.fast, model_type=args.model_type)
+    main(**OmegaConf.load(args.config), fast=args.fast, model_type=args.model_type_enum)
