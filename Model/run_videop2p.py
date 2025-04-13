@@ -52,7 +52,7 @@ def main(
     mixed_precision: str = 'fp32',
     model_type: ModelType = None,
 ):
-    output_folder = os.path.join(pretrained_model_path, 'results')
+    output_folder = os.path.join(pretrained_model_path, f'${model_type.value}_results')
     if fast:
         save_name_1 = os.path.join(output_folder, 'inversion_fast.gif')
         save_name_2 = os.path.join(output_folder, '{}_fast.gif'.format(save_name))

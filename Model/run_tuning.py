@@ -72,6 +72,9 @@ def main(
     enable_xformers_memory_efficient_attention: bool = True,
     seed: Optional[int] = None,
 ):
+    # Change the output dir to include used model
+    output_dir = model_type.value + "_" + output_dir
+    
     *_, config = inspect.getargvalues(inspect.currentframe())
 
     accelerator = Accelerator(
