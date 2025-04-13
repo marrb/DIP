@@ -12,7 +12,7 @@ train_data:
 
 validation_data:
   prompts:
-    - "a origami cat is sitting in front of a tree"
+    - "a dog is sitting in front of a tree"
   video_length: 24
   width: 512
   height: 512

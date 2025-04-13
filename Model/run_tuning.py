@@ -8,6 +8,7 @@ import math
 import os
 from typing import Dict, Optional, Tuple
 from omegaconf import OmegaConf
+from enums import ModelType
 
 import torch
 import torch.nn.functional as F
@@ -69,7 +70,7 @@ def main(
     use_8bit_adam: bool = False,
     enable_xformers_memory_efficient_attention: bool = True,
     seed: Optional[int] = None,
-    base: bool = False,
+    model_type: ModelType = ModelType.VIDEO_P2P,
 ):
     *_, config = inspect.getargvalues(inspect.currentframe())
 
@@ -108,7 +109,7 @@ def main(
     tokenizer = CLIPTokenizer.from_pretrained(pretrained_model_path, subfolder="tokenizer")
     text_encoder = CLIPTextModel.from_pretrained(pretrained_model_path, subfolder="text_encoder")
     vae = AutoencoderKL.from_pretrained(pretrained_model_path, subfolder="vae")
-    unet = UNet3DConditionModelCustom.from_pretrained_2d(pretrained_model_path ,subfolder="unet", base=base)
+    unet = UNet3DConditionModelCustom.from_pretrained_2d(pretrained_model_path ,subfolder="unet", model_type=model_type)
 
     # Freeze vae and text_encoder
     vae.requires_grad_(False)
@@ -288,7 +289,7 @@ def main(
                     raise ValueError(f"Unknown prediction type {noise_scheduler.prediction_type}")
 
                 # Predict the noise residual and compute loss
-                model_pred = unet(noisy_latents, timesteps, encoder_hidden_states, base=base).sample
+                model_pred = unet(noisy_latents, timesteps, encoder_hidden_states, model_type=model_type).sample
                 loss = F.mse_loss(model_pred.float(), target.float(), reduction="mean")
 
                 # Gather the losses across all processes for logging (if we use distributed training).
@@ -364,7 +365,10 @@ def main(
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=str, default="./configs/tuneavideo.yaml")
-    parser.add_argument("--base", type=bool, default=False, help="Use base VideoP2P model")
+    parser.add_argument("--model_type", type=str, default="", help=f"Model type: {ModelType.VIDEO_P2P}, {ModelType.VIDEO_P2P_EI}, {ModelType.VIDEO_P2P_EI_PLUS}")
     args = parser.parse_args()
+    
+    if args.model_type not in ModelType.__members__:
+        raise ValueError(f"Invalid model type: {args.model_type}. Must be one of {list(ModelType.__members__.keys())}")
 
-    main(**OmegaConf.load(args.config), base=args.base)
+    main(**OmegaConf.load(args.config), model_type=args.model_type)

@@ -12,6 +12,7 @@ from diffusers.configuration_utils import register_to_config
 from .unet import UNet3DConditionModel, UNet3DConditionOutput
 from .stam import STAM
 from .ffam import FFAM
+from enums import ModelType
 
 logger = logging.get_logger(__name__)
 
@@ -108,7 +109,7 @@ class UNet3DConditionModelCustom(UNet3DConditionModel):
         class_labels: Optional[torch.Tensor] = None,
         attention_mask: Optional[torch.Tensor] = None,
         return_dict: bool = True,
-        base: bool = False,
+        model_type: ModelType = None,
     ) -> Union[UNet3DConditionOutput, Tuple]:
         r"""
         Args:
@@ -147,7 +148,7 @@ class UNet3DConditionModelCustom(UNet3DConditionModel):
             sample = 2 * sample - 1.0
 
         # apply STAM if a base model is not used
-        if not base:
+        if model_type != ModelType.VIDEO_P2P:
             sample = self.stam(sample)
 
         # time
@@ -203,7 +204,7 @@ class UNet3DConditionModelCustom(UNet3DConditionModel):
             down_block_res_samples += res_samples
 
             # Apply FFAM only when more than 1 frame exists
-            if not base and sample.shape[2] > 1:
+            if model_type != ModelType.VIDEO_P2P and sample.shape[2] > 1:
                 sample = self.ffam[i](sample)
 
         # mid
@@ -238,7 +239,7 @@ class UNet3DConditionModelCustom(UNet3DConditionModel):
                 )
                 
             # Apply FFAM only when more than 1 frame exists
-            if not base and sample.shape[2] > 1:
+            if model_type != ModelType.VIDEO_P2P and sample.shape[2] > 1:
                 sample = self.ffam[-(i + 1)](sample)
             
         # post-process
@@ -252,7 +253,7 @@ class UNet3DConditionModelCustom(UNet3DConditionModel):
         return UNet3DConditionOutput(sample=sample)
 
     @classmethod
-    def from_pretrained_2d(cls, pretrained_model_path, subfolder=None, base=False):
+    def from_pretrained_2d(cls, pretrained_model_path, subfolder=None, model_type = None):
         if subfolder is not None:
             pretrained_model_path = os.path.join(pretrained_model_path, subfolder)
     
@@ -302,7 +303,7 @@ class UNet3DConditionModelCustom(UNet3DConditionModel):
         missing_keys, unexpected_keys = model.load_state_dict(new_state_dict, strict=False)
     
         # Manual initialization for STAM and FFAM parameters
-        if not base:
+        if model_type != ModelType.VIDEO_P2P:
             with torch.no_grad():
                 for key in missing_keys:
                     if key.startswith("stam") or key.startswith("ffam"):

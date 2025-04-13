@@ -15,6 +15,7 @@ from torch.optim.adam import Adam
 from PIL import Image
 from transformers import AutoTokenizer, CLIPTextModel, CLIPTokenizer
 from einops import rearrange
+from enums import ModelType
 
 from tuneavideo.models.unet import UNet3DConditionModel
 from tuneavideo.models.unet_custom import UNet3DConditionModelCustom
@@ -49,7 +50,7 @@ def main(
     video_len: int = 8,
     fast: bool = False,
     mixed_precision: str = 'fp32',
-    base: bool = False,
+    model_type: ModelType = None,
 ):
     output_folder = os.path.join(pretrained_model_path, 'results')
     if fast:
@@ -442,7 +443,7 @@ def main(
             return next_sample
         
         def get_noise_pred_single(self, latents, t, context):
-            noise_pred = self.model.unet(latents, t, encoder_hidden_states=context, base=base)["sample"]
+            noise_pred = self.model.unet(latents, t, encoder_hidden_states=context, model_type=model_type)["sample"]
             return noise_pred
 
         def get_noise_pred(self, latents, t, is_forward=True, context=None):
@@ -450,7 +451,7 @@ def main(
             if context is None:
                 context = self.context
             guidance_scale = 1 if is_forward else GUIDANCE_SCALE
-            noise_pred = self.model.unet(latents_input, t, encoder_hidden_states=context, base=base)["sample"]
+            noise_pred = self.model.unet(latents_input, t, encoder_hidden_states=context, model_type=model_type)["sample"]
             noise_pred_uncond, noise_prediction_text = noise_pred.chunk(2)
             noise_pred = noise_pred_uncond + guidance_scale * (noise_prediction_text - noise_pred_uncond)
             if is_forward:
@@ -664,7 +665,10 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=str, default="./configs/videop2p.yaml")
     parser.add_argument("--fast", action='store_true')
-    parser.add_argument("--base", type=bool, default=False, help="Use base Video-P2P model")
+    parser.add_argument("--model_type", type=str, default="", help=f"Model type: {ModelType.VIDEO_P2P}, {ModelType.VIDEO_P2P_EI}, {ModelType.VIDEO_P2P_EI_PLUS}")
     args = parser.parse_args()
+    
+    if args.model_type not in ModelType.__members__:
+        raise ValueError(f"Invalid model type: {args.model_type}. Must be one of {list(ModelType.__members__.keys())}")
 
-    main(**OmegaConf.load(args.config), fast=args.fast, base=args.base)
+    main(**OmegaConf.load(args.config), fast=args.fast, model_type=args.model_type)
