@@ -673,4 +673,4 @@ if __name__ == "__main__":
     except ValueError:
         raise ValueError(f"Invalid model type: {args.model_type}. Must be one of {[e.value for e in ModelType]}")
 
-    main(**OmegaConf.load(args.config), fast=args.fast, model_type=args.model_type_enum)
+    main(**OmegaConf.load(args.config), fast=args.fast, model_type=model_type_enum)
