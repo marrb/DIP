@@ -665,7 +665,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=str, default="./configs/videop2p.yaml")
     parser.add_argument("--fast", action='store_true')
-    parser.add_argument("--model_type", type=str, default="", help=f"Model type: {ModelType.VIDEO_P2P}, {ModelType.VIDEO_P2P_EI}, {ModelType.VIDEO_P2P_EI_PLUS}")
+    parser.add_argument("--model_type", type=str, default=ModelType.VIDEO_P2P, help=f"Model type: {ModelType.VIDEO_P2P}, {ModelType.VIDEO_P2P_EI}, {ModelType.VIDEO_P2P_EI_PLUS}")
     args = parser.parse_args()
     
     if args.model_type not in ModelType.__members__:
