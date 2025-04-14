@@ -127,17 +127,7 @@ class UNet3DConditionModelCustom(UNet3DConditionModel):
         # By default samples have to be AT least a multiple of the overall upsampling factor.
         # The overall upsampling factor is equal to 2 ** (# num of upsampling layears).
         # However, the upsampling interpolation output size can be forced to fit any upsampling size
-        # on the fly if necessary.
-        if model_type == ModelType.VIDEO_P2P:
-            return super().forward(
-                sample=sample,
-                timestep=timestep,
-                encoder_hidden_states=encoder_hidden_states,
-                class_labels=class_labels,
-                attention_mask=attention_mask,
-                return_dict=return_dict,
-            )
-        
+        # on the fly if necessary.      
         default_overall_up_factor = 2**self.num_upsamplers
 
         # upsample size should be forwarded when sample is not a multiple of `default_overall_up_factor`
@@ -262,10 +252,7 @@ class UNet3DConditionModelCustom(UNet3DConditionModel):
         return UNet3DConditionOutput(sample=sample)
 
     @classmethod
-    def from_pretrained_2d(cls, pretrained_model_path, subfolder=None, model_type = None):
-        if model_type == ModelType.VIDEO_P2P:
-            return super().from_pretrained_2d(pretrained_model_path, subfolder=subfolder)
-        
+    def from_pretrained_2d(cls, pretrained_model_path, subfolder=None, model_type = None):       
         if subfolder is not None:
             pretrained_model_path = os.path.join(pretrained_model_path, subfolder)
     

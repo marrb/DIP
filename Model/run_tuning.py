@@ -109,7 +109,7 @@ def main(
     tokenizer = CLIPTokenizer.from_pretrained(pretrained_model_path, subfolder="tokenizer")
     text_encoder = CLIPTextModel.from_pretrained(pretrained_model_path, subfolder="text_encoder")
     vae = AutoencoderKL.from_pretrained(pretrained_model_path, subfolder="vae")
-    unet = UNet3DConditionModelCustom.from_pretrained_2d(pretrained_model_path ,subfolder="unet", model_type=model_type) if model_type != ModelType.VIDEO_P2P else UNet3DConditionModel.from_pretrained(pretrained_model_path, subfolder="unet")
+    unet = UNet3DConditionModelCustom.from_pretrained_2d(pretrained_model_path ,subfolder="unet", model_type=model_type) if model_type != ModelType.VIDEO_P2P else UNet3DConditionModel.from_pretrained_2d(pretrained_model_path, subfolder="unet")
 
     # Freeze vae and text_encoder
     vae.requires_grad_(False)
@@ -289,7 +289,7 @@ def main(
                     raise ValueError(f"Unknown prediction type {noise_scheduler.prediction_type}")
 
                 # Predict the noise residual and compute loss
-                model_pred = unet(noisy_latents, timesteps, encoder_hidden_states, model_type=model_type).sample
+                model_pred = unet(noisy_latents, timesteps, encoder_hidden_states, model_type=model_type).sample if model_type != ModelType.VIDEO_P2P else unet(noisy_latents, timesteps, encoder_hidden_states).sample
                 loss = F.mse_loss(model_pred.float(), target.float(), reduction="mean")
 
                 # Gather the losses across all processes for logging (if we use distributed training).

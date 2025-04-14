@@ -88,7 +88,7 @@ def main(
     
     unet = UNet3DConditionModelCustom.from_pretrained(
         pretrained_model_path, subfolder="unet"
-    )
+    ) if model_type != ModelType.VIDEO_P2P else UNet3DConditionModel.from_pretrained(pretrained_model_path, subfolder="unet")
     unet.to(device)
     
     ldm_stable = TuneAVideoPipeline(
@@ -443,7 +443,7 @@ def main(
             return next_sample
         
         def get_noise_pred_single(self, latents, t, context):
-            noise_pred = self.model.unet(latents, t, encoder_hidden_states=context, model_type=model_type)["sample"]
+            noise_pred = self.model.unet(latents, t, encoder_hidden_states=context, model_type=model_type)["sample"] if model_type != ModelType.VIDEO_P2P else self.model.unet(latents, t, encoder_hidden_states=context)["sample"]
             return noise_pred
 
         def get_noise_pred(self, latents, t, is_forward=True, context=None):
@@ -451,7 +451,7 @@ def main(
             if context is None:
                 context = self.context
             guidance_scale = 1 if is_forward else GUIDANCE_SCALE
-            noise_pred = self.model.unet(latents_input, t, encoder_hidden_states=context, model_type=model_type)["sample"]
+            noise_pred = self.model.unet(latents_input, t, encoder_hidden_states=context, model_type=model_type)["sample"] if model_type != ModelType.VIDEO_P2P else self.model.unet(latents_input, t, encoder_hidden_states=context)["sample"]
             noise_pred_uncond, noise_prediction_text = noise_pred.chunk(2)
             noise_pred = noise_pred_uncond + guidance_scale * (noise_prediction_text - noise_pred_uncond)
             if is_forward:
