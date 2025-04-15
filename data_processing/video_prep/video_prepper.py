@@ -85,4 +85,15 @@ class VideoPrepper():
         for i, frame in enumerate(frames):
             output_frame_path = os.path.join(output_video_dir, f"{i + 1}.{self.output_frame_format}")
             cv2.imwrite(output_frame_path, frame)
+            
+        # Save mp4 video from frames
+        output_video_path = os.path.join(self.output_dir, f"{video_name}.mp4")
+        fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+        height, width, _ = frames[0].shape
+        video_writer = cv2.VideoWriter(output_video_path, fourcc, 30.0, (width, height))
+  
+        for frame in frames:
+            video_writer.write(frame)
+   
+        video_writer.release()
     

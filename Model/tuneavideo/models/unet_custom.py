@@ -13,6 +13,7 @@ from .unet import UNet3DConditionModel, UNet3DConditionOutput
 from .stam import STAM
 from .ffam import FFAM
 from enums.model_type import ModelType
+from ei_plus_modules import CrossFrameFusion, DynamicAttentionMasking, LatentDiffusionAlignment, MultiScaleFeatureAlignment
 
 logger = logging.get_logger(__name__)
 
