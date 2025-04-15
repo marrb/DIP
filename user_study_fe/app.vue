@@ -6,7 +6,7 @@
 	});
 
 	if (import.meta.client) {
-		await useSeeder();
+		//await useSeeder();
 	}
 </script>
 

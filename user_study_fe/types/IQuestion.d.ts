@@ -1,5 +1,7 @@
-import type { EAnswerType } from "./enums/EAnswerType";
+import type { EGeneralAnswerType } from "./enums/EGeneralAnswerType";
 import type { EQuestionType } from "./enums/EQuestionType";
+import type { EVideoAnswerType } from "./enums/EVideoAnswerType";
+import type { IVideo } from "./IVideo";
 
 declare interface IQuestion {
 	id: string;
@@ -8,6 +10,6 @@ declare interface IQuestion {
 	title: string;
 	titleSk: string;
 	questionType: EQuestionType;
-	answerType: EAnswerType;
+	answerType: EGeneralAnswerType | EVideoAnswerType;
 	videos: IVideo[];
 }

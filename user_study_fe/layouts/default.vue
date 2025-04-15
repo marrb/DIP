@@ -6,7 +6,7 @@
 <template>
 	<div class="min-h-screen">
 		<Header />
-		<div class="p-5">
+		<div class="p-5 min-h-[calc(100vh-210px)]">
 			<slot></slot>
 		</div>
 		<Footer />

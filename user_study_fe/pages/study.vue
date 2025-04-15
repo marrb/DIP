@@ -27,7 +27,10 @@
 	const isUpdating = ref(false);
 	const showError = ref(false);
 
-	const questionModel = ref<number | string>();
+	// Refs
+	const questionModel = ref<number | string[]>();
+	const videoQuestionRef = ref<typeof VideoQuestion>(null);
+	const generalQuestionRef = ref<typeof GeneralQuestion>(null);
 
 	// Computed
 	const remainingQuestions = computed(() => {
@@ -46,7 +49,7 @@
 
 	const currentQuestionIdx = computed(() => {
 		if (!questions.value || !currentQuestion.value) {
-			return 0;
+			return -1;
 		}
 
 		return questions.value.findIndex((question) => question.id === currentQuestion.value.id);
@@ -57,12 +60,16 @@
 			return true;
 		}
 
-		return currentQuestionIdx.value === 0;
+		return currentQuestionIdx.value === 0 || currentQuestionIdx.value === -1;
 	});
 
 	const nextButtonDisabled = computed(() => {
-		if (!currentQuestion.value || questionModel.value == null) {
-			return true;
+		if (currentQuestion.value.questionType === EQuestionType.VIDEO) {
+			return !videoQuestionRef.value?.canProceed;
+		}
+
+		if (currentQuestion.value.questionType === EQuestionType.GENERAL) {
+			return !generalQuestionRef.value?.canProceed;
 		}
 
 		return false;
@@ -74,15 +81,11 @@
 			return;
 		}
 
-		if (questionModel.value == null) {
-			showError.value = true;
-			return;
-		}
-
 		const exisitingAnswer = answers.value.find((answer) => answer.questionId === currentQuestion.value.id);
 		if (exisitingAnswer) {
 			if (exisitingAnswer.answer === questionModel.value) {
 				currentQuestion.value = questions.value[currentQuestionIdx.value + 1];
+				questionModel.value = null;
 				return;
 			}
 
@@ -100,13 +103,12 @@
 		await updateAnswers(answers.value);
 		isUpdating.value = false;
 
-		questionModel.value = null;
-
 		if (!remainingQuestions?.value || remainingQuestions.value.length === 0) {
 			return;
 		}
 
 		currentQuestion.value = questions.value[currentQuestionIdx.value + 1];
+		questionModel.value = null;
 
 		const answer = answers.value.find((answer) => answer.questionId === currentQuestion.value.id);
 		if (!answer) {
@@ -132,11 +134,10 @@
 
 	// Lifecycle
 	onMounted(async () => {
-		// Sort alphabetically based on id
 		questions.value = (await useCollection<IQuestion>(ECollection.QUESTIONS, "questions"))?.documents[0]?.data;
-
 		user.value = await useAuth();
 		answers.value = await getAnswers();
+
 		if (!answers.value) {
 			answers.value = [];
 		}
@@ -155,7 +156,7 @@
 </script>
 
 <template>
-	<Section>
+	<Section class="mb-10">
 		<LoadingSpinner
 			v-if="isLoading"
 			class="mx-auto mt-10 w-10 h-10"
@@ -174,11 +175,13 @@
 
 				<div>
 					<VideoQuestion
+						ref="videoQuestionRef"
 						v-if="currentQuestion?.questionType === EQuestionType.VIDEO"
 						:question="currentQuestion"
-						v-model="questionModel as string"
+						v-model="questionModel as string[]"
 					/>
 					<GeneralQuestion
+						ref="generalQuestionRef"
 						v-else-if="currentQuestion?.questionType === EQuestionType.GENERAL"
 						:question="currentQuestion"
 						v-model="questionModel as number"
