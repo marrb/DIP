@@ -29,6 +29,11 @@ export default defineNuxtConfig({
 			measurementId: process.env.FB_MEASUREMENT_ID,
 		},
 	},
+	runtimeConfig: {
+		public: {
+			deadline: "2025-04-27T23:59Z",
+		},
+	},
 	image: {
 		provider: "ipx",
 		quality: 80,

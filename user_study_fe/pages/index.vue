@@ -35,7 +35,7 @@
 				{{ $t("UserStudyThanks") }}
 			</P>
 			<A
-				:to="ROUTES.STUDY"
+				:to="ROUTES.INFORMATION"
 				class="mt-4 mx-auto"
 			>
 				{{ $t("UserStudyStart") }}

@@ -17,6 +17,7 @@
 	const { getAnswers, updateAnswers } = useAnswers();
 	const { getRandomId } = useIdGenerator();
 	const { locale } = useI18n();
+	const { deadline } = useRuntimeConfig().public;
 
 	// Data
 	const questions = ref<IQuestion[]>(null);
@@ -26,6 +27,7 @@
 	const isLoading = ref(true);
 	const isUpdating = ref(false);
 	const showError = ref(false);
+	const today = new Date();
 
 	// Refs
 	const questionModel = ref<number | string[]>();
@@ -73,6 +75,14 @@
 		}
 
 		return false;
+	});
+
+	const isDeadlinePassed = computed(() => {
+		if (!deadline) {
+			return false;
+		}
+
+		return new Date(deadline).getTime() < today.getTime();
 	});
 
 	// Methods
@@ -157,73 +167,81 @@
 
 <template>
 	<Section class="mb-10">
-		<LoadingSpinner
-			v-if="isLoading"
-			class="mx-auto mt-10 w-10 h-10"
-		/>
-		<template v-else-if="remainingQuestions?.length > 0">
-			<ProgressBar
-				:total="questions?.length"
-				:current="currentQuestionIdx"
-				class="mb-10"
-			/>
-
-			<div class="flex flex-col gap-12 items-center">
-				<H3 class="text-center">
-					{{ locale === "en" ? currentQuestion?.title : currentQuestion?.titleSk }}
-				</H3>
-
-				<div>
-					<VideoQuestion
-						ref="videoQuestionRef"
-						v-if="currentQuestion?.questionType === EQuestionType.VIDEO"
-						:question="currentQuestion"
-						v-model="questionModel as string[]"
-					/>
-					<GeneralQuestion
-						ref="generalQuestionRef"
-						v-else-if="currentQuestion?.questionType === EQuestionType.GENERAL"
-						:question="currentQuestion"
-						v-model="questionModel as number"
-					/>
-					<ErrorMessage
-						v-if="showError"
-						class="text-center mt-2"
-					>
-						{{ $t("NoAnswer") }}
-					</ErrorMessage>
-				</div>
-
-				<div class="flex gap-4">
-					<Button
-						v-if="currentQuestionIdx !== 0"
-						variant="filled"
-						@click="prevQuestion"
-						:disabled="prevButtonDisabled"
-					>
-						{{ $t("Back") }}
-					</Button>
-
-					<Button
-						variant="filled"
-						@click="nextQuestion"
-						:disabled="nextButtonDisabled"
-					>
-						<template v-if="isUpdating">
-							<LoadingSpinner class="mx-auto w-5 h-5" />
-						</template>
-						<template v-else>
-							{{ $t("Next") }}
-						</template>
-					</Button>
-				</div>
-			</div>
-		</template>
 		<H3
-			v-else
-			class="text-center mt-10"
+			v-if="isDeadlinePassed"
+			class="text-center mt-12"
 		>
-			{{ $t("AllQuestionsAnswered") }}
+			{{ $t("DeadlinePassed") }}
 		</H3>
+		<template v-else>
+			<LoadingSpinner
+				v-if="isLoading"
+				class="mx-auto mt-10 w-10 h-10"
+			/>
+			<template v-else-if="remainingQuestions?.length > 0">
+				<ProgressBar
+					:total="questions?.length"
+					:current="currentQuestionIdx"
+					class="mb-10"
+				/>
+
+				<div class="flex flex-col gap-12 items-center">
+					<H3 class="text-center">
+						{{ locale === "en" ? currentQuestion?.title : currentQuestion?.titleSk }}
+					</H3>
+
+					<div>
+						<VideoQuestion
+							ref="videoQuestionRef"
+							v-if="currentQuestion?.questionType === EQuestionType.VIDEO"
+							:question="currentQuestion"
+							v-model="questionModel as string[]"
+						/>
+						<GeneralQuestion
+							ref="generalQuestionRef"
+							v-else-if="currentQuestion?.questionType === EQuestionType.GENERAL"
+							:question="currentQuestion"
+							v-model="questionModel as number"
+						/>
+						<ErrorMessage
+							v-if="showError"
+							class="text-center mt-2"
+						>
+							{{ $t("NoAnswer") }}
+						</ErrorMessage>
+					</div>
+
+					<div class="flex gap-4">
+						<Button
+							v-if="currentQuestionIdx !== 0"
+							variant="filled"
+							@click="prevQuestion"
+							:disabled="prevButtonDisabled"
+						>
+							{{ $t("Back") }}
+						</Button>
+
+						<Button
+							variant="filled"
+							@click="nextQuestion"
+							:disabled="nextButtonDisabled"
+						>
+							<template v-if="isUpdating">
+								<LoadingSpinner class="mx-auto w-5 h-5" />
+							</template>
+							<template v-else>
+								{{ $t("Next") }}
+							</template>
+						</Button>
+					</div>
+				</div>
+			</template>
+			<H3
+				v-else
+				class="text-center mt-10"
+			>
+				{{ $t("AllQuestionsAnswered") }}
+			</H3>
+		</template>
 	</Section>
 </template>
