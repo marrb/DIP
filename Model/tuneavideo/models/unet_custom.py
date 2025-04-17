@@ -13,7 +13,7 @@ from .unet import UNet3DConditionModel, UNet3DConditionOutput
 from .stam import STAM
 from .ffam import FFAM
 from enums.model_type import ModelType
-from ei_plus_modules import CrossFrameFusion, DynamicAttentionMasking, LatentDiffusionAlignment, MultiScaleFeatureAlignment
+from .ei_plus_modules import CrossFrameFusion, DynamicAttentionMasking, LatentDiffusionAlignment, MultiScaleFeatureAlignment, TSM
 
 logger = logging.get_logger(__name__)
 
@@ -102,6 +102,10 @@ class UNet3DConditionModelCustom(UNet3DConditionModel):
         # FFAM
         self.ffam = nn.ModuleList([FFAM(dim) for dim in self.config.block_out_channels])
 
+        self.cfff = CrossFrameFusion(block_out_channels[0])
+        self.tsm = TSM(block_out_channels[0])
+        self.lda = LatentDiffusionAlignment(block_out_channels[0])
+
     def forward(
         self,
         sample: torch.FloatTensor,
@@ -148,6 +152,10 @@ class UNet3DConditionModelCustom(UNet3DConditionModel):
         if self.config.center_input_sample:
             sample = 2 * sample - 1.0
 
+        # apply TSM
+        if model_type == ModelType.VIDEO_P2P_EI_PLUS:
+            sample = self.tsm(sample)
+
         # apply STAM
         sample = self.stam(sample)
 
@@ -187,6 +195,10 @@ class UNet3DConditionModelCustom(UNet3DConditionModel):
 
         # pre-process
         sample = self.conv_in(sample)
+
+        if model_type == ModelType.VIDEO_P2P_EI_PLUS:
+            sample = self.cfff(sample)
+            sample = self.lda(sample)
         
         # down
         down_block_res_samples = (sample,)
@@ -305,7 +317,7 @@ class UNet3DConditionModelCustom(UNet3DConditionModel):
         # Manual initialization for STAM and FFAM parameters
         with torch.no_grad():
             for key in missing_keys:
-                if key.startswith("stam") or key.startswith("ffam"):
+                if any(key.startswith(prefix) for prefix in ["stam", "ffam", "cfff", "msfa", "dam", "lda", "tsm"]):
                     print(f"🔧 Initializing missing key: {key}")
                     param = model.state_dict().get(key)
                     if param is not None:
