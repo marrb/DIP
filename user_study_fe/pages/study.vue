@@ -12,6 +12,7 @@
 	import GeneralQuestion from "~/components/Study/GeneralQuestion.vue";
 	import VideoQuestion from "~/components/Study/VideoQuestion.vue";
 	import ErrorMessage from "~/components/Basic/ErrorMessage.vue";
+import { get } from "firebase/database";
 
 	// Composables
 	const { getAnswers, updateAnswers } = useAnswers();
@@ -86,6 +87,10 @@
 	});
 
 	// Methods
+	const getExistingAnswer = (questionId: string) => {
+		return answers.value.find((answer) => answer.questionId === questionId);
+	};
+
 	const nextQuestion = async () => {
 		if (!currentQuestion.value) {
 			return;
@@ -95,7 +100,7 @@
 		if (exisitingAnswer) {
 			if (exisitingAnswer.answer === questionModel.value) {
 				currentQuestion.value = questions.value[currentQuestionIdx.value + 1];
-				questionModel.value = null;
+				questionModel.value = getExistingAnswer(currentQuestion.value.id)?.answer;
 				return;
 			}
 
@@ -120,7 +125,7 @@
 		currentQuestion.value = questions.value[currentQuestionIdx.value + 1];
 		questionModel.value = null;
 
-		const answer = answers.value.find((answer) => answer.questionId === currentQuestion.value.id);
+		const answer = getExistingAnswer(currentQuestion.value.id);
 		if (!answer) {
 			return;
 		}
@@ -134,7 +139,7 @@
 		}
 
 		currentQuestion.value = questions.value[currentQuestionIdx.value - 1];
-		const answer = answers.value.find((answer) => answer.questionId === currentQuestion.value.id);
+		const answer = getExistingAnswer(currentQuestion.value.id);
 		if (!answer) {
 			return;
 		}

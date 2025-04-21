@@ -12,9 +12,12 @@
 	const model = defineModel<string[]>();
 
 	// Refs
+	const ignoreWatch = ref(false);
 	const ranking = ref<{ [key: string]: number }>({});
 
 	const addToRanking = (video: IVideo) => {
+		ignoreWatch.value = true;
+
 		// Check if video is already ranked, if so, remove it from ranking
 		if (isRanked.value(video)) {
 			delete ranking.value[video.id];
@@ -30,6 +33,10 @@
 
 		ranking.value[video.id] = rank;
 		model.value = Object.keys(ranking.value).sort((a, b) => ranking.value[a] - ranking.value[b]);
+
+		nextTick(() => {
+			ignoreWatch.value = false;
+		});
 	};
 
 	const isRanked = computed(() => (video: IVideo) => {
@@ -51,6 +58,10 @@
 	watch(
 		model,
 		(newModel) => {
+			if (ignoreWatch.value) {
+				return;
+			}
+
 			if (newModel && newModel.length !== 0) {
 				let rank = 1;
 

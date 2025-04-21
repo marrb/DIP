@@ -31,7 +31,7 @@ export default defineNuxtConfig({
 	},
 	runtimeConfig: {
 		public: {
-			deadline: "2025-04-27T23:59Z",
+			deadline: "2025-04-30T23:59Z",
 		},
 	},
 	image: {

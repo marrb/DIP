@@ -96,8 +96,8 @@ export const questionSeedData = (getRandomId: () => string, videos: IVideo[]): I
 				break;
 
 			case "cat":
-				prompt = "a dog is sitting in front of a tree";
-				promptSk = "pes sedí pred stromom";
+				prompt = "a dog with a sombrero is sitting in front of a tree";
+				promptSk = "pes so sombrérom sedí pred stromom";
 				break;
 
 			case "girl_dance":
@@ -106,8 +106,8 @@ export const questionSeedData = (getRandomId: () => string, videos: IVideo[]): I
 				break;
 
 			case "motorbike":
-				prompt = "a Spider-Man is driving a motorbike in the forest";
-				promptSk = "Spider-Man jazdí na motorke v lese"
+				prompt = "a Spider-Man is driving a bicycle in the forest";
+				promptSk = "Spider-Man jazdí na bicykli v lese";
 				break;
 
 			case "rabbit_jump":
@@ -116,8 +116,8 @@ export const questionSeedData = (getRandomId: () => string, videos: IVideo[]): I
 				break;
 
 			case "squirrel_carrot":
-				prompt = "a rabbit is eating a carrot";
-				promptSk = "králik je mrkvu";
+				prompt = "a rabbit with sunglasses is eating a carrot";
+				promptSk = "zajac v slnečných okuliaroch žerie mrkvu";
 				break;
 
 			default: 
@@ -152,17 +152,6 @@ export const questionSeedData = (getRandomId: () => string, videos: IVideo[]): I
 			answerType: EVideoAnswerType.CHOICE,
 			title: "Which video contains the most believable subject edit?",
 			titleSk: "Ktoré video obsahuje najpresvedčivejšiu úpravu subjektu?",
-			prompt: prompt,
-			promptSk: promptSk,
-			videos: [...groupVideos, originalVideo],
-		})
-
-		questions.push({
-			id: getRandomId(),
-			questionType: EQuestionType.VIDEO,
-			answerType: EVideoAnswerType.CHOICE,
-			title: "Which video are you most likely to use in your work?",
-			titleSk: "Ktoré video by si najradšej použil/a vo svojej práci?",
 			prompt: prompt,
 			promptSk: promptSk,
 			videos: [...groupVideos, originalVideo],
