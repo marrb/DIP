@@ -3,13 +3,14 @@ image_path: "./data/cat"
 prompt: "a cat is sitting in front of a tree"
 prompts:
   - "a cat is sitting in front of a tree"
-  - "a dog is sitting in front of a tree"
+  - "a dog with a sombrero is sitting in front of a tree"
 blend_word:
   - 'cat'
   - 'dog'
 eq_params:
   words:
     - "dog"
+    - "sombrero"
   values:
     - 2
 save_name: "[cat]_cat_dog"

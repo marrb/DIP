@@ -6,6 +6,8 @@ import json
 import torch
 import torch.nn as nn
 import torch.utils.checkpoint
+import torchvision.models as models
+import torchvision.transforms as transforms
 
 from diffusers.utils import logging
 from diffusers.configuration_utils import register_to_config
@@ -13,7 +15,7 @@ from .unet import UNet3DConditionModel, UNet3DConditionOutput
 from .stam import STAM
 from .ffam import FFAM
 from enums.model_type import ModelType
-from .ei_plus_modules import CrossFrameFusion, DynamicAttentionMasking, LatentDiffusionAlignment, MultiScaleFeatureAlignment, TSM
+from .ei_plus_modules import CrossFrameFusion, LatentDiffusionAlignment, TSM, TemporalSelfAttention3D
 
 logger = logging.get_logger(__name__)
 
@@ -102,10 +104,12 @@ class UNet3DConditionModelCustom(UNet3DConditionModel):
         # FFAM
         self.ffam = nn.ModuleList([FFAM(dim) for dim in self.config.block_out_channels])
 
+        # EI plus modules
         self.cfff = CrossFrameFusion(block_out_channels[0])
         self.tsm = TSM(block_out_channels[0])
         self.lda = LatentDiffusionAlignment(block_out_channels[0])
-
+        self.temporal_attn = TemporalSelfAttention3D(block_out_channels[-1])
+        
     def forward(
         self,
         sample: torch.FloatTensor,
@@ -152,11 +156,10 @@ class UNet3DConditionModelCustom(UNet3DConditionModel):
         if self.config.center_input_sample:
             sample = 2 * sample - 1.0
 
-        # apply TSM
+        # apply STAM and tsm
         if model_type == ModelType.VIDEO_P2P_EI_PLUS:
             sample = self.tsm(sample)
-
-        # apply STAM
+        
         sample = self.stam(sample)
 
         # time
@@ -218,11 +221,15 @@ class UNet3DConditionModelCustom(UNet3DConditionModel):
             # Apply FFAM only when more than 1 frame exists
             if sample.shape[2] > 1:
                 sample = self.ffam[i](sample)
-
+        
         # mid
         sample = self.mid_block(
             sample, emb, encoder_hidden_states=encoder_hidden_states, attention_mask=attention_mask
         )
+
+        # Apply temporal attention only when more than 1 frame exists
+        if model_type == ModelType.VIDEO_P2P_EI_PLUS and sample.shape[2] > 1:
+            sample = self.temporal_attn(sample)
 
         # up
         for i, upsample_block in enumerate(self.up_blocks):
@@ -317,7 +324,7 @@ class UNet3DConditionModelCustom(UNet3DConditionModel):
         # Manual initialization for STAM and FFAM parameters
         with torch.no_grad():
             for key in missing_keys:
-                if any(key.startswith(prefix) for prefix in ["stam", "ffam", "cfff", "msfa", "dam", "lda", "tsm"]):
+                if any(key.startswith(prefix) for prefix in ["stam", "ffam", "cfff", "msfa", "dam", "lda", "tsm", "asg", "temporal_attn"]):
                     print(f"🔧 Initializing missing key: {key}")
                     param = model.state_dict().get(key)
                     if param is not None:

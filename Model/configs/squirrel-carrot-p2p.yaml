@@ -3,13 +3,14 @@ image_path: "./data/squirrel_carrot"
 prompt: "a squirrel is eating a carrot"
 prompts:
   - "a squirrel is eating a carrot"
-  - "a rabbit is eating a carrot"
+  - "a rabbit wtih sunglasses is eating a carrot"
 blend_word:
   - 'squirrel'
   - 'rabbit'
 eq_params:
   words:
     - "rabbit"
+    - "sunglasses"
   values:
     - 2
 save_name: "squirrel-carrot-rabbit"

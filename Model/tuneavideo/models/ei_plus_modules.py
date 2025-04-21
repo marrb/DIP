@@ -66,7 +66,7 @@ class LatentDiffusionAlignment(nn.Module):
         return x + self.mlp(self.norm(x))
 
 class TSM(nn.Module):
-    def __init__(self, n_div=8):
+    def __init__(self, channels, n_div=8):
         super().__init__()
         self.fold_div = n_div
 
@@ -78,6 +78,37 @@ class TSM(nn.Module):
 
         out[:, :fold] = torch.roll(x[:, :fold], shifts=1, dims=2)   # shift forward
         out[:, fold:2*fold] = torch.roll(x[:, fold:2*fold], shifts=-1, dims=2)  # shift backward
-
+        # rest stays
         return out
-    
+        
+class SEBlock(nn.Module):
+    def __init__(self, channels, reduction=8):
+        super().__init__()
+        self.pool = nn.AdaptiveAvgPool3d(1)
+        self.fc = nn.Sequential(
+            nn.Conv3d(channels, channels // reduction, 1),
+            nn.ReLU(inplace=True),
+            nn.Conv3d(channels // reduction, channels, 1),
+            nn.Sigmoid()
+        )
+
+    def forward(self, x):
+        weight = self.fc(self.pool(x))
+        return x * weight
+
+class TemporalSelfAttention3D(nn.Module):
+    def __init__(self, channels, heads=4):
+        super().__init__()
+        self.channels = channels
+        self.heads = heads
+        self.attn = nn.MultiheadAttention(embed_dim=channels, num_heads=heads, batch_first=True)
+        self.norm = nn.LayerNorm(channels)
+
+    def forward(self, x):
+        # x: [B, C, T, H, W] → flatten spatial
+        B, C, T, H, W = x.shape
+        x_reshaped = x.permute(0, 3, 4, 2, 1).reshape(-1, T, C)  # [(B*H*W), T, C]
+        x_normed = self.norm(x_reshaped)
+        attn_output, _ = self.attn(x_normed, x_normed, x_normed)
+        out = attn_output.reshape(B, H, W, T, C).permute(0, 4, 3, 1, 2)  # → [B, C, T, H, W]
+        return x + out

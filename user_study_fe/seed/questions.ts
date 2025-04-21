@@ -81,7 +81,6 @@ export const questionSeedData = (getRandomId: () => string, videos: IVideo[]): I
 		acc[originalVideoName].push(video);
 		return acc;
 	}, {} as Record<string, IVideo[]>);
-	console.log(groupedVideosByOriginal)
 
 	for (const videoGroup of Object.values(groupedVideosByOriginal)) {
 		const groupVideos = Array.from(videoGroup.values());
@@ -129,8 +128,8 @@ export const questionSeedData = (getRandomId: () => string, videos: IVideo[]): I
 			id: getRandomId(),
 			questionType: EQuestionType.VIDEO,
 			answerType: EVideoAnswerType.RANKING,
-			title: "Rank the following videos based on overall visual quality.",
-			titleSk: "Zoraď videá podľa celkovej vizualnej kvality.",
+			title: "Rank the following videos based on how well the subject was edited while keeping the scene intact.",
+			titleSk: "Zoraď videá podľa kvality úpravy subjektu pri zachovaní pôvodnej scény.",
 			prompt: prompt,
 			promptSk: promptSk,
 			videos: [...groupVideos, originalVideo],
@@ -140,19 +139,8 @@ export const questionSeedData = (getRandomId: () => string, videos: IVideo[]): I
 			id: getRandomId(),
 			questionType: EQuestionType.VIDEO,
 			answerType: EVideoAnswerType.RANKING,
-			title: "Rank the following videos based on visual consistency across frames.",
-			titleSk: "Zoraď videá podľa vizuálnej konzistencie naprieč snímkami.",
-			prompt: prompt,
-			promptSk: promptSk,
-			videos: [...groupVideos, originalVideo],
-		})
-
-		questions.push({
-			id: getRandomId(),
-			questionType: EQuestionType.VIDEO,
-			answerType: EVideoAnswerType.RANKING,
-			title: "Rank the following videos based on overall visual quality.",
-			titleSk: "Zoraď videá podľa celkovej vizualnej kvality.",
+			title: "Rank the videos based on how consistently the edit was applied across frames.",
+			titleSk: "Zoraď videá podľa konzistencie aplikovanej úpravy naprieč snímkami.",
 			prompt: prompt,
 			promptSk: promptSk,
 			videos: [...groupVideos, originalVideo],
@@ -162,8 +150,8 @@ export const questionSeedData = (getRandomId: () => string, videos: IVideo[]): I
 			id: getRandomId(),
 			questionType: EQuestionType.VIDEO,
 			answerType: EVideoAnswerType.CHOICE,
-			title: "Which video do you think is the most realistic?",
-			titleSk: "Ktoré video je podľa teba najrealistickejšie?",
+			title: "Which video contains the most believable subject edit?",
+			titleSk: "Ktoré video obsahuje najpresvedčivejšiu úpravu subjektu?",
 			prompt: prompt,
 			promptSk: promptSk,
 			videos: [...groupVideos, originalVideo],
@@ -175,6 +163,17 @@ export const questionSeedData = (getRandomId: () => string, videos: IVideo[]): I
 			answerType: EVideoAnswerType.CHOICE,
 			title: "Which video are you most likely to use in your work?",
 			titleSk: "Ktoré video by si najradšej použil/a vo svojej práci?",
+			prompt: prompt,
+			promptSk: promptSk,
+			videos: [...groupVideos, originalVideo],
+		})
+
+		questions.push({
+			id: getRandomId(),
+			questionType: EQuestionType.VIDEO,
+			answerType: EVideoAnswerType.CHOICE,
+			title: "Which video feels the most naturally edited — as if it wasn’t edited at all?",
+			titleSk: "Ktoré video pôsobí najprirodzenejšie — akoby vôbec nebolo upravované?",
 			prompt: prompt,
 			promptSk: promptSk,
 			videos: [...groupVideos, originalVideo],
