@@ -1,10 +1,8 @@
 <script setup lang="ts">
-	const props = defineProps<{
+	defineProps<{
 		total: number;
 		current: number;
 	}>();
-
-	console.log(props.total, props.current);
 </script>
 
 <template>

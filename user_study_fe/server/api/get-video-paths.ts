@@ -22,8 +22,6 @@ export default defineEventHandler(() => {
 	const videosDir = "./public/videos";
 	const videoPaths = readDirectory(videosDir);
 
-	console.log(videoPaths)
-
 	return {
 		videoPaths,
 	};

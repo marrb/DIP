@@ -13,7 +13,7 @@ export function useVideoSeeder() {
 
 		const list = await listAll(videosRef);
 		for (const item of list.items) {
-			console.log("Deleting video:", item.name);
+			console.info("Deleting video:", item.name);
 			await deleteObject(item);
 		}
 	};

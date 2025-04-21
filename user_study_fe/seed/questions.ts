@@ -71,7 +71,6 @@ export const questionSeedData = (getRandomId: () => string, videos: IVideo[]): I
 	// Add video-based questions
 	const groupedVideosByOriginal = videos.reduce((acc: Record<string, IVideo[]>, video) => {
 		const originalVideoName = video.originalVideoName;
-		console.log(video)
 		if(!originalVideoName) return acc;
 
 		if (!acc[originalVideoName]) {
