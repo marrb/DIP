@@ -21,7 +21,7 @@ export default defineNuxtConfig({
 	},
 	devtools: { enabled: true },
 	ssr: true,
-	modules: ["nuxt-vuefire", "@nuxt/fonts", "@nuxt/image", "@vesp/nuxt-fontawesome", "@nuxtjs/i18n", "@vueuse/nuxt"],
+	modules: ["nuxt-vuefire", "@nuxt/fonts", "@vesp/nuxt-fontawesome", "@nuxtjs/i18n", "@vueuse/nuxt"],
 	vuefire: {
 		config: {
 			apiKey: process.env.FB_API_KEY,
@@ -36,14 +36,6 @@ export default defineNuxtConfig({
 	runtimeConfig: {
 		public: {
 			deadline: "2025-04-30T23:59Z",
-		},
-	},
-	image: {
-		provider: "ipx",
-		quality: 80,
-		formats: ["webp"],
-		ipx: {
-			maxAge: 60 * 60 * 24 * 365,
 		},
 	},
 	i18n: {

@@ -46,8 +46,8 @@
 			</div>
 		</div>
 		<Section class="text-center flex-col md:flex-row md:text-3xl flex gap-4 items-center uppercase">
-			<NuxtImg
-				src="images/VUT-logo.png"
+			<img
+				src="/images/VUT-logo.png"
 				loading="lazy"
 				class="max-w-[50px] md:max-w-[100px] h-auto"
 				width="100"

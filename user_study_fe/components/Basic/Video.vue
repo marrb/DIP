@@ -30,7 +30,7 @@
 				class="absolute top-2 right-2 hover:text-blue-400 cursor-pointer"
 				@click="modalRef?.show()"
 			/>
-			<NuxtImg
+			<img
 				:src="video.url"
 				:onLoad="onLoad"
 				class="w-full h-auto"
@@ -41,7 +41,7 @@
 			ref="modalRef"
 			size="md"
 		>
-			<NuxtImg
+			<img
 				:src="video.url"
 				class="w-full h-auto"
 			/>
