@@ -27,5 +27,10 @@
 	"SavingProgress": "Ukladanie",
 	"SavingProgress1": "Váš pokrok sa automaticky ukladá. To znamená, že môžete kedykoľvek odísť a vrátiť sa bez toho, aby ste stratili svoje odpovede - dokonca aj keď zatvoríte kartu alebo obnovíte stránku. Po návrate budete môcť pokračovať presne tam, kde ste skončili.",
 	"Runtime": "Užívateľská štúdia bude k dispozícii do {deadline}. Po uplynutí tejto lehoty bude štúdia uzavretá a nebudete sa môcť zúčastniť.",
-	"DeadlinePassed": "Lehota na účasť v užívateľskej štúdii uplynula. Ďakujeme za váš záujem!"
+	"DeadlinePassed": "Lehota na účasť v užívateľskej štúdii uplynula. Ďakujeme za váš záujem!",
+	"ScaleInput.1": "Veľmi málo",
+	"ScaleInput.2": "Trochu",
+	"ScaleInput.3": "Stredne",
+	"ScaleInput.4": "Viac",
+	"ScaleInput.5": "Veľmi veľa"
 }

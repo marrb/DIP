@@ -27,5 +27,10 @@
 	"SavingProgress": "Saving Your Progress",
 	"SavingProgress1": "Your progress is automatically saved as you move through the study. This means you can leave and return at any time without losing your answers — even if you close the tab or refresh the page. When you return, you’ll be able to continue exactly where you left off.",
 	"Runtime": "The user study will be available until {deadline}. After that, the study will be closed and you will not be able to participate.",
-	"DeadlinePassed": "The deadline for the user study has passed. Thank you for your interest!"
+	"DeadlinePassed": "The deadline for the user study has passed. Thank you for your interest!",
+	"ScaleInput.1": "Very little",
+	"ScaleInput.2": "A little",
+	"ScaleInput.3": "Somewhat",
+	"ScaleInput.4": "Moderately",
+	"ScaleInput.5": "Very much"
 }

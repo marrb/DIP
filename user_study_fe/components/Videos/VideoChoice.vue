@@ -29,6 +29,10 @@
 		model.value = [video.id];
 	};
 
+	if (model.value && model.value.length > 0) {
+		choice.value = model.value[0];
+	}
+
 	watch(
 		model,
 		(newModel) => {
@@ -43,10 +47,10 @@
 </script>
 
 <template>
-	<div class="flex gap-4">
+	<div class="flex gap-4 flex-wrap justify-center">
 		<Video
 			v-for="video of videos"
-			:class="isSelected(video) ? 'border-2 border-blue-500' : ''"
+			:class="isSelected(video) ? 'border-4 border-blue-500' : ''"
 			:video="video"
 			class="cursor-pointer max-w-52 min-w-52 min-h-52"
 			@click="selectChoice(video)"

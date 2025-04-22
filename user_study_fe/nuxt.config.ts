@@ -12,7 +12,11 @@ export default defineNuxtConfig({
 		},
 	},
 	nitro: {
-		preset: "node-server",
+		preset: "firebase",
+		firebase: {
+			gen: 2,
+			nodeVersion: "20",
+		},
 		compressPublicAssets: true,
 	},
 	devtools: { enabled: true },

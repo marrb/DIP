@@ -39,6 +39,15 @@
 		});
 	};
 
+	const applyRatingFromModel = (newModel: string[]) => {
+		let rank = 1;
+
+		for (const id of newModel) {
+			ranking.value[id] = rank;
+			rank++;
+		}
+	};
+
 	const isRanked = computed(() => (video: IVideo) => {
 		if (!ranking.value) {
 			return false;
@@ -55,30 +64,25 @@
 		return ranking.value[video.id];
 	});
 
-	watch(
-		model,
-		(newModel) => {
-			if (ignoreWatch.value) {
-				return;
-			}
+	if (model.value && model.value.length !== 0) {
+		applyRatingFromModel(model.value);
+	}
 
-			if (newModel && newModel.length !== 0) {
-				let rank = 1;
+	watch(model, (newModel) => {
+		if (ignoreWatch.value) {
+			return;
+		}
 
-				for (const id of newModel) {
-					ranking.value[id] = rank;
-					rank++;
-				}
-			}
-			else {
-				ranking.value = {};
-			}
-		},
-	);
+		if (newModel && newModel.length !== 0) {
+			applyRatingFromModel(newModel);
+		} else {
+			ranking.value = {};
+		}
+	});
 </script>
 
 <template>
-	<div class="flex gap-4">
+	<div class="flex gap-4 flex-wrap justify-center">
 		<div
 			v-for="video of videos"
 			class="flex flex-col gap-2 justify-end"

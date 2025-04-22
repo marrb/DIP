@@ -140,11 +140,13 @@ import { get } from "firebase/database";
 
 		currentQuestion.value = questions.value[currentQuestionIdx.value - 1];
 		const answer = getExistingAnswer(currentQuestion.value.id);
+		console.log(answer)
 		if (!answer) {
 			return;
 		}
 
 		questionModel.value = answer.answer;
+		console.log(questionModel.value)
 	};
 
 	// Lifecycle
@@ -195,18 +197,18 @@ import { get } from "firebase/database";
 						{{ locale === "en" ? currentQuestion?.title : currentQuestion?.titleSk }}
 					</H3>
 
-					<div>
+					<div class="w-full">
 						<VideoQuestion
 							ref="videoQuestionRef"
 							v-if="currentQuestion?.questionType === EQuestionType.VIDEO"
 							:question="currentQuestion"
-							v-model="questionModel as string[]"
+							v-model="questionModel"
 						/>
 						<GeneralQuestion
 							ref="generalQuestionRef"
 							v-else-if="currentQuestion?.questionType === EQuestionType.GENERAL"
 							:question="currentQuestion"
-							v-model="questionModel as number"
+							v-model="questionModel"
 						/>
 						<ErrorMessage
 							v-if="showError"

@@ -49,11 +49,11 @@
 			<NuxtImg
 				src="images/VUT-logo.png"
 				loading="lazy"
-				class="max-w-[100px] h-auto"
+				class="max-w-[50px] md:max-w-[100px] h-auto"
 				width="100"
 				height="100"
 			/>
-			{{ $t("Header") }}
+			<span class="text-xs md:text-xl">{{ $t("Header") }}</span>
 		</Section>
 	</header>
 </template>
