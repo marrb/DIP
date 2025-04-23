@@ -14,4 +14,5 @@ declare interface IQuestion {
 	videos: IVideo[];
 	hint?: string;
 	hintSk?: string;
+	videoSortOrder?: number[];
 }

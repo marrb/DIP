@@ -79,17 +79,22 @@
 			<VideoRanking
 				v-if="question.answerType == EVideoAnswerType.RANKING"
 				:videos="videos"
+				:sort-order="question.videoSortOrder"
 				v-model="model"
 			/>
 			<VideoChoice
 				v-else-if="question.answerType == EVideoAnswerType.CHOICE"
 				:videos="videos"
+				:sort-order="question.videoSortOrder"
 				v-model="model"
 			/>
 		</div>
-        <P v-if="question?.hint" class="mt-2">
-            {{ $t("HintText") }}
-            <span class="font-bold">{{ locale === "en" ? question?.hint : question?.hintSk }}</span>
-        </P>
+		<P
+			v-if="question?.hint"
+			class="mt-2"
+		>
+			{{ $t("HintText") }}
+			<span class="font-bold">{{ locale === "en" ? question?.hint : question?.hintSk }}</span>
+		</P>
 	</div>
 </template>

@@ -1,11 +1,11 @@
 <script setup lang="ts">
 	import type { IVideo } from "~/types/IVideo";
 	import Video from "../Basic/Video.vue";
-	import { warn } from "vue";
 
 	// Props
-	defineProps<{
+	const props = defineProps<{
 		videos: IVideo[];
+		sortOrder: number[];
 	}>();
 
 	// Model
@@ -21,6 +21,10 @@
 		}
 
 		return choice.value === video.id;
+	});
+
+	const sortedVideos = computed(() => {
+		return props.sortOrder.map(index => props.videos[index]);
 	});
 
 	// Methods
@@ -49,7 +53,7 @@
 <template>
 	<div class="flex gap-4 flex-wrap justify-center">
 		<Video
-			v-for="video of videos"
+			v-for="video of sortedVideos"
 			:class="isSelected(video) ? 'border-4 border-blue-500' : ''"
 			:video="video"
 			class="cursor-pointer max-w-52 min-w-52 min-h-52"

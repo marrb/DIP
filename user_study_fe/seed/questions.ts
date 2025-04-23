@@ -66,12 +66,12 @@ export const questionSeedData = (getRandomId: () => string, videos: IVideo[]): I
 			answerType: EGeneralAnswerType.SCALE_1_5,
 			videos: [],
 		},
-	]
+	];
 
 	// Add video-based questions
 	const groupedVideosByOriginal = videos.reduce((acc: Record<string, IVideo[]>, video) => {
 		const originalVideoName = video.originalVideoName;
-		if(!originalVideoName) return acc;
+		if (!originalVideoName) return acc;
 
 		if (!acc[originalVideoName]) {
 			acc[originalVideoName] = [];
@@ -119,35 +119,47 @@ export const questionSeedData = (getRandomId: () => string, videos: IVideo[]): I
 				promptSk = "zajac v slnečných okuliaroch žerie mrkvu";
 				break;
 
-			default: 
+			default:
 				throw new Error(`Unknown original video name: ${originalVideo.originalName}`);
 		}
+
+		const getVideoSortOrder = (videos: IVideo[]) => {
+			return videos.reduce((acc) => {
+				const available = [...Array(groupVideos.length).keys()].filter((n) => !acc.includes(n));
+				const randIndex = Math.floor(Math.random() * available.length);
+				return [...acc, available[randIndex]];
+			}, []);
+		};
 
 		questions.push({
 			id: getRandomId(),
 			questionType: EQuestionType.VIDEO,
 			answerType: EVideoAnswerType.RANKING,
 			title: "Rank the videos by how well the main character or object in the video has been edited based on the text used for the edit.",
-			titleSk: "Zoraď videá podľa toho, ako dobre bola upravená hlavná postava alebo objekt vo videu na základe textu použitého na úpravu.",
+			titleSk:
+				"Zoraď videá podľa toho, ako dobre bola upravená hlavná postava alebo objekt vo videu na základe textu použitého na úpravu.",
 			prompt: prompt,
 			promptSk: promptSk,
 			videos: [...groupVideos, originalVideo],
 			hint: "Click on the videos in order, starting with the best (1), to rank them from best to worst.",
 			hintSk: "Klikni na videá podľa poradia, začni tým najlepším (1 = najlepšie) a pokračuj po najhoršie.",
-		})
+			videoSortOrder: getVideoSortOrder(groupVideos),
+		});
 
 		questions.push({
 			id: getRandomId(),
 			questionType: EQuestionType.VIDEO,
 			answerType: EVideoAnswerType.RANKING,
 			title: "Rank videos by whether the edit looks the same from start to finish (e.g. no flickering or style changes).",
-			titleSk: "Zoraď videá podľa toho, či úprava pôsobí rovnakým spôsobom od začiatku až do konca (napr. bez blikania alebo zmeny štýlu).",
+			titleSk:
+				"Zoraď videá podľa toho, či úprava pôsobí rovnakým spôsobom od začiatku až do konca (napr. bez blikania alebo zmeny štýlu).",
 			prompt: prompt,
 			promptSk: promptSk,
 			videos: [...groupVideos, originalVideo],
 			hint: "Click on the videos in order, starting with the best (1), to rank them from best to worst.",
 			hintSk: "Klikni na videá podľa poradia, začni tým najlepším (1 = najlepšie) a pokračuj po najhoršie.",
-		})
+			videoSortOrder: getVideoSortOrder(groupVideos),
+		});
 
 		questions.push({
 			id: getRandomId(),
@@ -160,8 +172,9 @@ export const questionSeedData = (getRandomId: () => string, videos: IVideo[]): I
 			videos: [...groupVideos, originalVideo],
 			hint: "Click on the video that kept most of the original scene intact.",
 			hintSk: "Klikni na video, ktoré zachovalo väčšinu pôvodnej scény.",
-		})
+			videoSortOrder: getVideoSortOrder(groupVideos),
+		});
 	}
 
 	return questions;
-}
+};

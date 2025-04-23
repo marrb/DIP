@@ -4,8 +4,9 @@
 	import P from "../Basic/P.vue";
 
 	// Props
-	defineProps<{
+	const props = defineProps<{
 		videos: IVideo[];
+		sortOrder: number[];
 	}>();
 
 	// Model
@@ -68,6 +69,10 @@
 		applyRatingFromModel(model.value);
 	}
 
+	const sortedVideos = computed(() => {
+		return props.sortOrder.map(index => props.videos[index]);
+	});
+
 	watch(model, (newModel) => {
 		if (ignoreWatch.value) {
 			return;
@@ -84,10 +89,19 @@
 <template>
 	<div class="flex gap-4 flex-wrap justify-center">
 		<div
-			v-for="video of videos"
+			v-for="video of sortedVideos"
 			class="flex flex-col gap-2 justify-end"
 		>
-			<P v-if="isRanked(video)">{{ getRank(video) }} {{ getRank(video) === 1 ? ' - ' + $t("Best") : getRank(video) === videos.length ? ' - ' + $t("Worst") : "" }}</P>
+			<P v-if="isRanked(video)"
+				>{{ getRank(video) }}
+				{{
+					getRank(video) === 1
+						? " - " + $t("Best")
+						: getRank(video) === videos.length
+						? " - " + $t("Worst")
+						: ""
+				}}</P
+			>
 			<Video
 				:class="isRanked(video) ? 'border-2 border-blue-500' : ''"
 				:video="video"
