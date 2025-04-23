@@ -43,7 +43,7 @@
 		>
 			<img
 				:src="video.url"
-				class="w-full h-auto"
+				class="w-full h-auto [user-drag:none] [user-select:none]"
 			/>
 		</Modal>
 	</div>

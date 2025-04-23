@@ -69,6 +69,13 @@
 		</div>
 		<div class="border-t-2 border-gray-300 pt-4 mt-4">
 			<P class="mb-4 font-extrabold underline text-lg">{{ $t("EditedVideos") }}</P>
+			<P
+				v-if="question?.prompt"
+				class="mt-2 mb-4"
+			>
+				{{ $t("PromptText") }}
+				<span class="font-bold">{{ locale === "en" ? question?.prompt : question?.promptSk }}</span>
+			</P>
 			<VideoRanking
 				v-if="question.answerType == EVideoAnswerType.RANKING"
 				:videos="videos"
@@ -80,11 +87,9 @@
 				v-model="model"
 			/>
 		</div>
-		<P
-			v-if="question?.prompt"
-			class="mt-2"
-		>
-			{{ $t("PromptText")}} <span class="font-bold">{{ locale === "en" ? question?.prompt : question?.promptSk }}</span>
-		</P>
+        <P v-if="question?.hint" class="mt-2">
+            {{ $t("HintText") }}
+            <span class="font-bold">{{ locale === "en" ? question?.hint : question?.hintSk }}</span>
+        </P>
 	</div>
 </template>

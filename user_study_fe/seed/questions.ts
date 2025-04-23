@@ -127,11 +127,13 @@ export const questionSeedData = (getRandomId: () => string, videos: IVideo[]): I
 			id: getRandomId(),
 			questionType: EQuestionType.VIDEO,
 			answerType: EVideoAnswerType.RANKING,
-			title: "Rank the videos by how well the main character or object in the video has been edited, while leaving the rest of the scene as unchanged as possible.",
-			titleSk: "Zoraď videá podľa toho, ako dobre bola upravená hlavná postava alebo objekt vo videu, pričom zvyšok scény ostal čo najviac nezmenený.",
+			title: "Rank the videos by how well the main character or object in the video has been edited based on the text used for the edit.",
+			titleSk: "Zoraď videá podľa toho, ako dobre bola upravená hlavná postava alebo objekt vo videu na základe textu použitého na úpravu.",
 			prompt: prompt,
 			promptSk: promptSk,
 			videos: [...groupVideos, originalVideo],
+			hint: "Click on the videos in order, starting with the best (1), to rank them from best to worst.",
+			hintSk: "Klikni na videá podľa poradia, začni tým najlepším (1 = najlepšie) a pokračuj po najhoršie.",
 		})
 
 		questions.push({
@@ -143,17 +145,8 @@ export const questionSeedData = (getRandomId: () => string, videos: IVideo[]): I
 			prompt: prompt,
 			promptSk: promptSk,
 			videos: [...groupVideos, originalVideo],
-		})
-
-		questions.push({
-			id: getRandomId(),
-			questionType: EQuestionType.VIDEO,
-			answerType: EVideoAnswerType.CHOICE,
-			title: "Which video contains the most believable subject edit?",
-			titleSk: "Ktoré video obsahuje najpresvedčivejšiu úpravu subjektu?",
-			prompt: prompt,
-			promptSk: promptSk,
-			videos: [...groupVideos, originalVideo],
+			hint: "Click on the videos in order, starting with the best (1), to rank them from best to worst.",
+			hintSk: "Klikni na videá podľa poradia, začni tým najlepším (1 = najlepšie) a pokračuj po najhoršie.",
 		})
 
 		questions.push({
@@ -165,6 +158,8 @@ export const questionSeedData = (getRandomId: () => string, videos: IVideo[]): I
 			prompt: prompt,
 			promptSk: promptSk,
 			videos: [...groupVideos, originalVideo],
+			hint: "Click on the video that kept most of the original scene intact.",
+			hintSk: "Klikni na video, ktoré zachovalo väčšinu pôvodnej scény.",
 		})
 	}
 

@@ -140,13 +140,11 @@ import { get } from "firebase/database";
 
 		currentQuestion.value = questions.value[currentQuestionIdx.value - 1];
 		const answer = getExistingAnswer(currentQuestion.value.id);
-		console.log(answer)
 		if (!answer) {
 			return;
 		}
 
 		questionModel.value = answer.answer;
-		console.log(questionModel.value)
 	};
 
 	// Lifecycle

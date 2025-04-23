@@ -36,5 +36,8 @@
 	"EditedVideos": "Upravené videá",
 	"PromptText": "Videá boli upravené na základe textu: ",
 	"Tips": "Tipy",
-	"Tips1": "Každé video je možné rozšíriť na celú obrazovku kliknutím na ikonu v pravom hornom rohu videa"
+	"Tips1": "Každé video je možné rozšíriť na celú obrazovku kliknutím na ikonu v pravom hornom rohu videa",
+	"HintText": "Nápoveda: ",
+	"Best": "Najlepšie",
+	"Worst": "Najhoršie"
 }

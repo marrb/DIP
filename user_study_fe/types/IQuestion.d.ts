@@ -12,4 +12,6 @@ declare interface IQuestion {
 	questionType: EQuestionType;
 	answerType: EGeneralAnswerType | EVideoAnswerType;
 	videos: IVideo[];
+	hint?: string;
+	hintSk?: string;
 }

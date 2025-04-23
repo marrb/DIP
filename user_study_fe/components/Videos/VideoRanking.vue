@@ -87,7 +87,7 @@
 			v-for="video of videos"
 			class="flex flex-col gap-2 justify-end"
 		>
-			<P v-if="isRanked(video)">{{ getRank(video) }}</P>
+			<P v-if="isRanked(video)">{{ getRank(video) }} {{ getRank(video) === 1 ? ' - ' + $t("Best") : getRank(video) === videos.length ? ' - ' + $t("Worst") : "" }}</P>
 			<Video
 				:class="isRanked(video) ? 'border-2 border-blue-500' : ''"
 				:video="video"
