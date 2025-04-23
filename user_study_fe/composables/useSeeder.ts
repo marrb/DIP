@@ -15,4 +15,6 @@ export async function useSeeder() {
 	await setDoc(questionsDocRef, {
 		questions: questionData,
 	});
+
+	console.info("Seeding completed!");
 }
