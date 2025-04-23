@@ -14,7 +14,7 @@
 	"OriginalVideo": "Pôvodné video",
 	"BeforeYouStart": "Predtým, ako začnete",
 	"PurposeOfTheStudy": "Účel štúdie",
-	"Information1": "Ďakujeme vám za účasť v tejto užívateľskej štúdii. Tento výskum je súčasťou diplomovej práce zameranej na využitie difúznych modelov na báze umelej inteligencie na úpravu videa.",
+	"Information1": "Ďakujem vám za účasť v tejto užívateľskej štúdii. Tento výskum je súčasťou diplomovej práce zameranej na využitie difúznych modelov na báze umelej inteligencie na úpravu videa.",
 	"Information2": "Cieľom tejto štúdie je vyhodnotiť, ako dobre dokážu moderné modely umelej inteligencie vykonávať úpravy videa, ktoré menia predmet videa (napr. zmena osoby alebo objektu), pričom zvyšok scény zostáva konzistentný, vrátane:",
 	"Background": "pozadie",
 	"MotionAndTiming": "pohyb a načasovanie",
@@ -32,5 +32,9 @@
 	"ScaleInput.2": "Trochu",
 	"ScaleInput.3": "Stredne",
 	"ScaleInput.4": "Viac",
-	"ScaleInput.5": "Veľmi veľa"
+	"ScaleInput.5": "Veľmi veľa",
+	"EditedVideos": "Upravené videá",
+	"PromptText": "Videá boli upravené na základe textu: ",
+	"Tips": "Tipy",
+	"Tips1": "Každé video je možné rozšíriť na celú obrazovku kliknutím na ikonu v pravom hornom rohu videa"
 }

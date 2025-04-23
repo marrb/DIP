@@ -7,7 +7,7 @@
 </script>
 
 <template>
-	<Section class="mt-40 text-gray-200 h-full">
+	<Section class="md:mt-40 text-gray-200 h-full">
 		<div class="my-auto text-center flex flex-col gap-2">
 			<H3 class="mb-2">{{ $t("Welcome") }}! </H3>
 			<P>

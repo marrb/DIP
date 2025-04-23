@@ -32,5 +32,9 @@
 	"ScaleInput.2": "A little",
 	"ScaleInput.3": "Somewhat",
 	"ScaleInput.4": "Moderately",
-	"ScaleInput.5": "Very much"
+	"ScaleInput.5": "Very much",
+	"EditedVideos": "Edited Videos",
+	"PromptText": "Videos were edited based on the text: ",
+	"Tips": "Tips",
+	"Tips1": "You can expand every video to full screen by clicking the icon in the top right corner of the video"
 }

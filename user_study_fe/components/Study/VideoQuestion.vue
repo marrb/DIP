@@ -68,6 +68,7 @@
 			/>
 		</div>
 		<div class="border-t-2 border-gray-300 pt-4 mt-4">
+			<P class="mb-4 font-extrabold underline text-lg">{{ $t("EditedVideos") }}</P>
 			<VideoRanking
 				v-if="question.answerType == EVideoAnswerType.RANKING"
 				:videos="videos"
@@ -83,7 +84,7 @@
 			v-if="question?.prompt"
 			class="mt-2"
 		>
-			{{ locale === "en" ? question?.prompt : question?.promptSk }}
+			{{ $t("PromptText")}} <span class="font-bold">{{ locale === "en" ? question?.prompt : question?.promptSk }}</span>
 		</P>
 	</div>
 </template>

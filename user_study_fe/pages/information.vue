@@ -58,7 +58,15 @@
 			{{ $t("SavingProgress1") }}
 		</P>
 
-		<P>
+		<H4>
+			{{ $t("Tips") }}
+		</H4>
+
+		<Ul>
+			<li>{{ $t("Tips1") }}</li>
+		</Ul>
+
+		<P class="mt-4">
 			{{ $t("Runtime", { deadline: deadline }) }}
 		</P>
 
