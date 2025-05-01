@@ -1,5 +1,5 @@
 export enum ECollection {
-	MODELS = "models",
+	VIDEOS = "videos",
 	QUESTIONS = "questions",
 	ANSWERS = "answers",
 }
