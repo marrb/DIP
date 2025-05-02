@@ -51,6 +51,14 @@ class QuestionProcessor:
         ]
         
         return question, answers
+    
+    def get_questions_by_ids_and_answers(self, ids: List[str]) -> List[Tuple[Question, List[Answer]]]:
+        result = []
+        
+        for id in ids:
+            result.append(self.get_question_by_id_and_answers(id))
+            
+        return result
         
     def get_videos_by_question_id(self, question_id: str) -> List[Video]:
         question = next((q for q in self.data['questions'] if q['id'] == question_id), None)
@@ -65,4 +73,13 @@ class QuestionProcessor:
         ]
         
         return videos
+    
+    def get_videos_by_question_ids(self, question_ids: List[str]) -> List[Video]:
+        result = []
+        
+        for question_id in question_ids:
+            videos = self.get_videos_by_question_id(question_id)
+            result.extend(videos)
+            
+        return result
         
