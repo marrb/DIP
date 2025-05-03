@@ -20,7 +20,7 @@ def extract_frames(video_path: str, number_of_frames: int, output_path: str):
 	
 	# Save frames
 	for i, frame in enumerate(frames):
-		frame_path = f"{output_path}/frame_{i}.jpg"
+		frame_path = f"{output_path}/{i + 1}.jpg"
 		cv2.imwrite(frame_path, frame)	
 
 if __name__ == "__main__":

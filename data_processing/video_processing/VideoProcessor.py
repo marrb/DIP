@@ -26,5 +26,8 @@ class VideoProcessor:
 				frames.append(frame)
 			frame_count += 1
    
+			if len(frames) > number_of_frames - 1:
+				break
+   
 		self.video.release()
 		return frames
