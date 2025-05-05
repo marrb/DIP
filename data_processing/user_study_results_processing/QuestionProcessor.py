@@ -1,5 +1,4 @@
 import json
-import numpy as np
 from json_types.QuestionJsonData import QuestionJsonData
 from json_types.EQuestionType import EQuestionType
 from json_types.Question import Question

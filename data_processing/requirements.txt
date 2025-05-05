@@ -1,0 +1,14 @@
+--index-url https://download.pytorch.org/whl/cu124
+
+torch==2.5.0
+torchvision==0.20.0
+torchaudio==2.5.0
+
+git+https://github.com/openai/CLIP.git
+
+pandas
+matplotlib
+lpips
+tqdm
+Pillow
+opencv-python
