@@ -7,7 +7,7 @@ Táto časť repozitára obsahuje skripty na spracovanie vstupných videí, prí
 | Skript / Notebook                      | Popis |
 |----------------------------------------|-------|
 | `video_prep/prep_video.py`             | Rozdelenie videí na snímky, výber požadovaných dĺžok sekvencií. |
-| `video_prep/video_prepper.py`          | Trieda poskytujúca metódy pre skript prep_video.py. |
+| `video_prep/video_prepper.py`          | Trieda poskytujúca metódy pre skript `prep_video.py`. |
 | `video_processing/process_video.py`    | Extrakcia požadovaného počtu snímok z videa. |
 | `video_processing/VideoProcessor.py`   | Trieda obsahujúca metódy pre manipuláciu so snímkami a videami. |
 | `user_study_results_processing/QuestionProcessor.py` | Načítanie a spracovanie exportovaných odpovedí z dotazníka. |

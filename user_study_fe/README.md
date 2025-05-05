@@ -1,75 +1,26 @@
-# Nuxt Minimal Starter
+# Užívateľská štúdia – Frontend
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Táto časť repozitára obsahuje webovú aplikáciu na zber subjektívnych hodnotení kvality videí generovaných rôznymi modelmi (Video-P2P, EI, EI-Plus, Tune-A-Video).
 
-## Setup
+Užívateľská štúdia bola navrhnutá ako **interaktívna webová aplikácia** postavená na frameworku **Nuxt 3** (Vue 3 + Composition API), hostovaná pomocou **Firebase Hosting**.
 
-Make sure to install dependencies:
+## Použité technológie
 
+- [Nuxt 3](https://nuxt.com/) (frontend framework)
+- [Tailwind CSS](https://tailwindcss.com/) (štýlovanie)
+- [Firebase Hosting](https://firebase.google.com/) (nasadenie)
+- [Firebase Firestore / Realtime DB](https://firebase.google.com/) (zber odpovedí)
+---
+
+## Lokálne spustenie
+
+Na spustenie aplikácie je potrebné mať nainštalovaný Node.js (verzia 20.12.0 alebo vyššia) a správcu balíkov npm alebo yarn.
+
+Následne je možné aplikáciu spustiť ako:
 ```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
+npm install / yarn install
+npm run dev / yarn dev
 ```
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+# Autor
+- Martin Bublavý [xbubla02]
