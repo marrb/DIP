@@ -29,15 +29,12 @@ Pre správnu kompatibilitu je potrebné upraviť súbor:
 ``` bash
 vim /usr/local/lib/python3.10/dist-packages/diffusers/dynamic_modules_utils.py
 ```
-- Odstrániť **cache_downloads** z importov
+- Odstrániť **cached_download** z importov
 - V kóde nahradiť za **hf_hub_download**
 
-### Inštalácia xformers:
-```bash
-git clone https://github.com/facebookresearch/xformers/
-cd xformers
-git submodule update --init --recursive
-sudo apt-get install python3-dev
+Alebo pre jednoduchosť stači spustiť pripravený skript:
+``` bash
+bash ./fix_diffusers.sh
 ```
 
 ## Ladenie a testovanie

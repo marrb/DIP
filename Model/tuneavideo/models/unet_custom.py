@@ -327,7 +327,7 @@ class UNet3DConditionModelCustom(UNet3DConditionModel):
         with torch.no_grad():
             for key in missing_keys:
                 if any(key.startswith(prefix) for prefix in ["stam", "ffam", "cfff", "msfa", "dam", "lda", "tsm", "asg", "temporal_attn"]):
-                    print(f"🔧 Initializing missing key: {key}")
+                    print(f"Initializing missing key: {key}")
                     param = model.state_dict().get(key)
                     if param is not None:
                         param.data.normal_(0, 0.02)  # Standard initialization
