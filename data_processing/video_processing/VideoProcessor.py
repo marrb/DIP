@@ -1,3 +1,5 @@
+# Autor: Martin Bublavý [xbubla02]
+
 import cv2
 
 class VideoProcessor:

@@ -1,3 +1,5 @@
+# Autor: Martin Bublavý [xbubla02]
+
 import argparse
 from video_prepper import VideoPrepper
 

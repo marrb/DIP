@@ -1,9 +1,10 @@
+# Autor: Martin Bublavý [xbubla02]
+
 from .EQuestionType import EQuestionType
 from .EGeneralAnswerType import EGeneralAnswerType
 from .EVideoAnswerType import EVideoAnswerType
 from typing import TypedDict, Optional, Union, List
 from .Video import Video
-from dataclasses import dataclass
 
 class Question(TypedDict):
     id: str

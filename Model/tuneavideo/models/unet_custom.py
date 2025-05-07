@@ -1,3 +1,5 @@
+# Autor: Martin Bublavý [xbubla02] (upravená pôvodná verzia)
+
 from typing import Optional, Tuple, Union
 
 import os

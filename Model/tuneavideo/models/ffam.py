@@ -1,3 +1,5 @@
+# Autor: Martin Bublavý [xbubla02]
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -21,7 +23,7 @@ class FFAM(nn.Module):
         self.reduction_factor = reduction_factor
 
         # Linear projection to ensure correct embedding size
-        self.proj = nn.Linear(2 * dim, dim)  # Project concatenated context back to `dim`
+        self.proj = nn.Linear(2 * dim, dim)
 
         # Multi-head attention for fine-coarse frame interaction
         self.spatial_attn = nn.MultiheadAttention(embed_dim=dim, num_heads=num_heads, batch_first=True)
@@ -71,7 +73,6 @@ class FFAM(nn.Module):
         # Apply Multi-head Self-Attention
         attn_out, _ = self.spatial_attn(context, context, context)  # (B*(T-1), HW, C)
     
-        # Fix the reshape issue using `.contiguous().reshape()`
         attn_out = attn_out.permute(0, 2, 1).contiguous().reshape(B, C, (T - 1), H, W)
     
         # Merge refinements into the current frame

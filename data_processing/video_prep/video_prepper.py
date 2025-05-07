@@ -1,3 +1,5 @@
+# Autor: Martin Bublavý [xbubla02]
+
 import os
 import cv2
 import sys

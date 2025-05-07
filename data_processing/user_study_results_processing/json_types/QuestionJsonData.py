@@ -1,3 +1,5 @@
+# Autor: Martin Bublavý [xbubla02]
+
 from typing import List, TypedDict
 from .Question import Question
 from .Video import Video

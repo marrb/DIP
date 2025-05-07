@@ -1,4 +1,5 @@
 # From https://github.com/showlab/Tune-A-Video/blob/main/train_tuneavideo.py
+# Autor: Martin Bublavý [xbubla02] (upravená pôvodná verzia)
 
 import argparse
 import datetime

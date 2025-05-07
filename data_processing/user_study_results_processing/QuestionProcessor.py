@@ -1,3 +1,5 @@
+# Autor: Martin Bublavý [xbubla02]
+
 import json
 from json_types.QuestionJsonData import QuestionJsonData
 from json_types.EQuestionType import EQuestionType

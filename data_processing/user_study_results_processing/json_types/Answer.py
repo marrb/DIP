@@ -1,3 +1,5 @@
+# Autor: Martin Bublavý [xbubla02]
+
 from typing import TypedDict, Union, List, Optional
 
 class Answer(TypedDict):

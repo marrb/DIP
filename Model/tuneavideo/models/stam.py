@@ -1,3 +1,5 @@
+# Autor: Martin Bublavý [xbubla02]
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -43,7 +45,7 @@ class STAM(nn.Module):
     Shift-Restricted Temporal Attention Module (STAM)
     """
 
-    def __init__(self, feature_dim):  # Correctly use feature dimension (e.g., 320)
+    def __init__(self, feature_dim):
         super().__init__()
         self.temporal_attention = TemporalSelfAttention(feature_dim)  
         self.linear = SpectralNormalizedLinear(feature_dim, feature_dim)  
@@ -68,6 +70,6 @@ class STAM(nn.Module):
 
         # Expand back to original shape (B, C, T, H, W)
         x_temporal = x_temporal.transpose(1, 2)  # Convert back (B, T, C) → (B, C, T)
-        x_expanded = x_temporal.unsqueeze(-1).unsqueeze(-1).expand(-1, -1, -1, H, W)  # Broadcast
+        x_expanded = x_temporal.unsqueeze(-1).unsqueeze(-1).expand(-1, -1, -1, H, W) 
 
         return x + x_expanded  # Residual connection

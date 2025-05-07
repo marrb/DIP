@@ -1,4 +1,5 @@
 # Adapted from https://github.com/google/prompt-to-prompt/blob/main/null_text_w_ptp.ipynb
+# Autor: Martin Bublavý [xbubla02] (upravená pôvodná verzia)
 
 import os
 from typing import Optional, Union, Tuple, List, Callable, Dict
